@@ -143,6 +143,11 @@ function renderCatalog() {
     nonWeddingGrid.innerHTML = renderThemes(nonWeddingThemes);
 }
 
+// Format price to Rupiah format (e.g., 150000 -> Rp 150.000)
+function formatPrice(price) {
+    return 'Rp ' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
 // Render themes HTML
 function renderThemes(themes) {
     return themes.map(theme => `
@@ -156,8 +161,8 @@ function renderThemes(themes) {
             <div class="catalog-item-info">
                 <h3 class="catalog-item-name">${theme.name}</h3>
                 <div class="catalog-item-price">
-                    <span class="catalog-item-price-original">Rp 500.000</span>
-                    <span class="catalog-item-price-current">Rp 150.000</span>
+                    <span class="catalog-item-price-original">${formatPrice(theme.priceOriginal)}</span>
+                    <span class="catalog-item-price-current">${formatPrice(theme.priceCurrent)}</span>
                 </div>
                 <div class="catalog-item-buttons">
                     <a href="${theme.demo}" target="_blank" rel="noopener noreferrer" class="catalog-btn catalog-btn-demo">Demo</a>
