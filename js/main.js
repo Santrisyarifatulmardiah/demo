@@ -7,7 +7,6 @@ const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 const navLinks = document.querySelectorAll('.nav-link');
-const scrollToTopBtn = document.getElementById('scrollToTop');
 const faqItems = document.querySelectorAll('.faq-item');
 const catalogToggleBtns = document.querySelectorAll('.catalog-toggle-btn');
 const statNumbers = document.querySelectorAll('.stat-number');
@@ -54,24 +53,7 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('scrolled');
     }
 
-    // Show/hide scroll to top button
-    if (currentScroll > 300) {
-        scrollToTopBtn.classList.add('show');
-    } else {
-        scrollToTopBtn.classList.remove('show');
-    }
-
     lastScroll = currentScroll;
-});
-
-// ========================================
-// SCROLL TO TOP
-// ========================================
-scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
 });
 
 // ========================================
