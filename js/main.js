@@ -4,39 +4,11 @@
 
 // DOM Elements
 const navbar = document.getElementById('navbar');
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('navMenu');
-const navLinks = document.querySelectorAll('.nav-link');
+const bottomNav = document.getElementById('bottomNav');
+const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
 const faqItems = document.querySelectorAll('.faq-item');
 const catalogToggleBtns = document.querySelectorAll('.catalog-toggle-btn');
 const statNumbers = document.querySelectorAll('.stat-number');
-
-// ========================================
-// MOBILE NAVIGATION
-// ========================================
-navToggle.addEventListener('click', () => {
-    navToggle.classList.toggle('active');
-    navMenu.classList.toggle('active');
-    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-});
-
-// Close mobile menu when clicking on a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-});
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
 
 // ========================================
 // NAVBAR SCROLL EFFECT
@@ -57,27 +29,27 @@ window.addEventListener('scroll', () => {
 });
 
 // ========================================
-// ACTIVE NAV LINK ON SCROLL
+// ACTIVE BOTTOM NAV LINK ON SCROLL
 // ========================================
 const sections = document.querySelectorAll('section[id]');
 
-function activeNavLink() {
+function activeBottomNavLink() {
     const scrollY = window.pageYOffset;
 
     sections.forEach(section => {
         const sectionHeight = section.offsetHeight;
         const sectionTop = section.offsetTop - 100;
         const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+        const bottomNavItem = document.querySelector(`.bottom-nav-item[data-section="${sectionId}"]`);
 
         if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            if (navLink) navLink.classList.add('active');
+            bottomNavItems.forEach(item => item.classList.remove('active'));
+            if (bottomNavItem) bottomNavItem.classList.add('active');
         }
     });
 }
 
-window.addEventListener('scroll', activeNavLink);
+window.addEventListener('scroll', activeBottomNavLink);
 
 // ========================================
 // STATS COUNTER ANIMATION
@@ -336,25 +308,18 @@ function debounce(func, wait) {
 }
 
 // Apply debounce to scroll-heavy functions
-const debouncedActiveNavLink = debounce(activeNavLink, 100);
+const debouncedActiveBottomNavLink = debounce(activeBottomNavLink, 100);
 const debouncedAnimateStats = debounce(animateStats, 100);
 
-window.removeEventListener('scroll', activeNavLink);
+window.removeEventListener('scroll', activeBottomNavLink);
 window.removeEventListener('scroll', animateStats);
-window.addEventListener('scroll', debouncedActiveNavLink);
+window.addEventListener('scroll', debouncedActiveBottomNavLink);
 window.addEventListener('scroll', debouncedAnimateStats);
 
 // ========================================
 // ACCESSIBILITY: Keyboard navigation
 // ========================================
 document.addEventListener('keydown', (e) => {
-    // Close mobile menu on Escape
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-        navToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
     // Close active FAQ on Escape
     if (e.key === 'Escape') {
         faqItems.forEach(item => item.classList.remove('active'));
