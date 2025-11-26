@@ -29,6 +29,15 @@ navLinks.forEach(link => {
     });
 });
 
+// Close mobile menu when clicking bottom nav items
+document.querySelectorAll('.bottom-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+});
+
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
     if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
@@ -60,6 +69,7 @@ window.addEventListener('scroll', () => {
 // ACTIVE NAV LINK ON SCROLL
 // ========================================
 const sections = document.querySelectorAll('section[id]');
+const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
 
 function activeNavLink() {
     const scrollY = window.pageYOffset;
@@ -69,10 +79,21 @@ function activeNavLink() {
         const sectionTop = section.offsetTop - 100;
         const sectionId = section.getAttribute('id');
         const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+        const bottomNavItem = document.querySelector(`.bottom-nav-item[href="#${sectionId}"]`);
 
         if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            // Update top navigation
             navLinks.forEach(link => link.classList.remove('active'));
             if (navLink) navLink.classList.add('active');
+
+            // Update bottom navigation
+            bottomNavItems.forEach(item => {
+                // Only remove active from items with hash links (not external links)
+                if (item.getAttribute('href').startsWith('#')) {
+                    item.classList.remove('active');
+                }
+            });
+            if (bottomNavItem) bottomNavItem.classList.add('active');
         }
     });
 }
