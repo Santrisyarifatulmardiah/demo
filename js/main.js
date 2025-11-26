@@ -201,6 +201,14 @@ function renderThemes(themes) {
             </div>
             <div class="catalog-item-info">
                 <h3 class="catalog-item-name">${theme.name}</h3>
+                <div class="catalog-item-price">
+                    <span class="catalog-item-price-original">Rp 500.000</span>
+                    <span class="catalog-item-price-current">Rp 150.000</span>
+                </div>
+                <div class="catalog-item-buttons">
+                    <a href="${theme.demo}" target="_blank" rel="noopener noreferrer" class="catalog-btn catalog-btn-demo">Demo</a>
+                    <a href="https://wa.me/6281211114522?text=Halo,%20saya%20tertarik%20dengan%20tema%20${encodeURIComponent(theme.name)}" target="_blank" class="catalog-btn catalog-btn-order">Order</a>
+                </div>
             </div>
         </div>
     `).join('');
@@ -385,10 +393,63 @@ function validatePhone(phone) {
 }
 
 // ========================================
+// TESTIMONIALS SLIDER
+// ========================================
+let currentTestimonial = 0;
+const testimonials = document.querySelectorAll('.testimonial-slide');
+const testimonialsTrack = document.querySelector('.testimonials-track');
+const testimonialsPrev = document.querySelector('.testimonials-nav-prev');
+const testimonialsNext = document.querySelector('.testimonials-nav-next');
+const testimonialsDotsContainer = document.querySelector('.testimonials-dots');
+
+function initTestimonialsSlider() {
+    // Create dots
+    testimonials.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('testimonial-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToTestimonial(index));
+        testimonialsDotsContainer.appendChild(dot);
+    });
+
+    // Add event listeners
+    testimonialsPrev.addEventListener('click', previousTestimonial);
+    testimonialsNext.addEventListener('click', nextTestimonial);
+
+    // Auto play
+    setInterval(nextTestimonial, 5000);
+}
+
+function updateTestimonialSlider() {
+    testimonialsTrack.style.transform = `translateX(-${currentTestimonial * 100}%)`;
+
+    // Update dots
+    document.querySelectorAll('.testimonial-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentTestimonial);
+    });
+}
+
+function nextTestimonial() {
+    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+    updateTestimonialSlider();
+}
+
+function previousTestimonial() {
+    currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+    updateTestimonialSlider();
+}
+
+function goToTestimonial(index) {
+    currentTestimonial = index;
+    updateTestimonialSlider();
+}
+
+// ========================================
 // INITIALIZE ON DOM READY
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
     initCatalog();
+    initTestimonialsSlider();
     console.log('S2Moments - Landing Page Loaded Successfully! 🎉');
 });
 
