@@ -364,6 +364,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+    justify-content: center;
 }
 
 .hero-image-bottom {
@@ -1123,8 +1124,6 @@ button {
     width: 100%;
     max-width: 800px;
     height: auto;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
 }
 
 /* ========================================
@@ -1246,21 +1245,21 @@ button {
 /* Mobile */
 @media (max-width: 768px) {
     :root {
-        --section-padding: 50px 0;
+        --section-padding: 35px 0;
     }
 
     .section-header {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
 
     .contact-card {
         flex-direction: column;
-        padding: 32px 24px;
-        gap: 28px;
+        padding: 28px 20px;
+        gap: 24px;
     }
 
     .contact-mascot img {
-        width: 140px;
+        width: 130px;
     }
 
     .nav-menu {
@@ -1300,18 +1299,18 @@ button {
     }
 
     .hero {
-        padding: 100px 0 50px;
+        padding: 90px 0 35px;
     }
 
     .hero-content {
-        margin-bottom: 36px;
+        margin-bottom: 28px;
     }
 
     .hero-stats {
         flex-direction: row;
-        gap: 20px;
-        padding: 20px 16px;
-        margin-bottom: 28px;
+        gap: 16px;
+        padding: 16px 14px;
+        margin-bottom: 24px;
     }
 
     .stat-divider {
@@ -1333,16 +1332,16 @@ button {
 
     .why-us-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 16px;
     }
 
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 16px;
     }
 
     .feature-card {
-        padding: 24px 18px;
+        padding: 20px 16px;
     }
 
     .feature-card h3 {
@@ -1367,16 +1366,16 @@ button {
     }
 
     .testimonial-card {
-        padding: 28px;
+        padding: 24px;
     }
 
     .love-story-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 16px;
     }
 
     .love-story-card {
-        padding: 24px;
+        padding: 20px;
     }
 
     .catalog-toggle {
@@ -1417,21 +1416,21 @@ button {
 /* Small Mobile */
 @media (max-width: 480px) {
     :root {
-        --container-padding: 0 16px;
-        --section-padding: 40px 0;
+        --container-padding: 0 14px;
+        --section-padding: 30px 0;
     }
 
     .section-header {
-        margin-bottom: 32px;
+        margin-bottom: 24px;
     }
 
     .contact-card {
-        padding: 24px 20px;
-        gap: 20px;
+        padding: 20px 16px;
+        gap: 16px;
     }
 
     .contact-mascot img {
-        width: 120px;
+        width: 110px;
     }
 
     .btn-wa-contact {
@@ -1458,30 +1457,30 @@ button {
     }
 
     .why-us-card {
-        padding: 20px 16px;
+        padding: 16px 12px;
     }
 
     .why-us-card h3 {
-        font-size: 1.0625rem;
+        font-size: 1rem;
     }
 
     .why-us-card p {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
     }
 
     .why-us-icon {
-        width: 56px;
-        height: 56px;
-        margin-bottom: 16px;
+        width: 52px;
+        height: 52px;
+        margin-bottom: 12px;
     }
 
     .why-us-icon svg {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
     }
 
     .feature-card {
-        padding: 18px 14px;
+        padding: 16px 12px;
     }
 
     .feature-icon {
@@ -1503,27 +1502,27 @@ button {
     }
 
     .hero {
-        padding: 90px 0 40px;
+        padding: 80px 0 30px;
     }
 
     .hero-content {
-        margin-bottom: 30px;
+        margin-bottom: 24px;
     }
 
     .hero-title {
         font-size: 1.875rem;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
     .hero-subtitle {
         font-size: 0.9375rem;
-        margin-bottom: 28px;
+        margin-bottom: 20px;
     }
 
     .hero-stats {
-        padding: 18px 12px;
-        gap: 12px;
-        margin-bottom: 24px;
+        padding: 14px 10px;
+        gap: 10px;
+        margin-bottom: 20px;
     }
 
     .stat-number {
