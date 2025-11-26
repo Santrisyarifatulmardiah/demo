@@ -293,10 +293,8 @@ button {
 }
 
 .hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
+    display: block;
+    margin-bottom: 40px;
 }
 
 .hero-title {
@@ -356,11 +354,14 @@ button {
     gap: 16px;
 }
 
-.hero-image {
+.hero-image-bottom {
     position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.hero-image img {
+.hero-image-bottom img {
     width: 100%;
     height: auto;
     border-radius: var(--radius-lg);
@@ -480,6 +481,53 @@ button {
     color: var(--color-gray);
     font-size: 0.9375rem;
     line-height: 1.6;
+}
+
+/* ========================================
+   LOVE STORY SECTION
+======================================== */
+.love-story {
+    padding: var(--section-padding);
+    background: var(--color-white);
+}
+
+.love-story-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.love-story-card {
+    padding: 32px;
+    background: var(--color-gray-lighter);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.love-story-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    background: var(--color-white);
+    border: 1px solid var(--brand-gold);
+}
+
+.love-story-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.love-story-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-dark);
+}
+
+.love-story-card p {
+    color: var(--color-gray);
+    line-height: 1.8;
 }
 
 /* ========================================
@@ -655,6 +703,65 @@ button {
     font-size: 1.125rem;
     color: var(--color-dark);
     text-align: center;
+    margin-bottom: 12px;
+}
+
+.catalog-item-price {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.catalog-item-price-original {
+    font-size: 0.875rem;
+    color: var(--color-gray);
+    text-decoration: line-through;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.catalog-item-price-current {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-gold);
+    font-family: var(--font-secondary);
+}
+
+.catalog-item-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.catalog-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.catalog-btn-demo {
+    background: var(--color-white);
+    border: 2px solid var(--brand-gold);
+    color: var(--brand-gold);
+}
+
+.catalog-btn-demo:hover {
+    background: var(--brand-gold);
+    color: var(--color-dark);
+}
+
+.catalog-btn-order {
+    background: var(--gradient-gold);
+    color: var(--color-dark);
+    border: 2px solid transparent;
+}
+
+.catalog-btn-order:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
 }
 
 /* ========================================
@@ -665,23 +772,98 @@ button {
     background: var(--color-gray-lighter);
 }
 
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 32px;
+.testimonials-slider-wrapper {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.testimonials-slider {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+}
+
+.testimonials-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.testimonial-slide {
+    min-width: 100%;
+    padding: 0 16px;
 }
 
 .testimonial-card {
-    padding: 32px;
+    padding: 40px;
     background: var(--color-white);
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
+    height: 100%;
+}
+
+.testimonials-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background: var(--color-white);
+    border: 2px solid var(--brand-gold);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
     transition: var(--transition);
 }
 
-.testimonial-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+.testimonials-nav:hover {
+    background: var(--brand-gold);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.testimonials-nav svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--brand-gold);
+}
+
+.testimonials-nav:hover svg {
+    stroke: var(--color-dark);
+}
+
+.testimonials-nav-prev {
+    left: -60px;
+}
+
+.testimonials-nav-next {
+    right: -60px;
+}
+
+.testimonials-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.testimonial-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-full);
+    background: var(--color-gray-light);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.testimonial-dot:hover {
+    background: var(--brand-gold-light);
+}
+
+.testimonial-dot.active {
+    background: var(--brand-gold);
+    width: 32px;
 }
 
 .testimonial-header {
@@ -800,72 +982,98 @@ button {
     background: var(--color-gray-lighter);
 }
 
-.contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    margin-top: 40px;
-}
-
-.contact-image img {
-    width: 100%;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-}
-
-.contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.contact-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 20px;
+.contact-card {
+    max-width: 800px;
+    margin: 0 auto;
     background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    gap: 48px;
+    align-items: center;
+}
+
+.contact-mascot {
+    flex-shrink: 0;
+}
+
+.contact-mascot img {
+    width: 200px;
+    height: auto;
+}
+
+.contact-details {
+    flex: 1;
+    text-align: center;
+}
+
+.contact-message {
+    font-size: 1.0625rem;
+    color: var(--color-gray);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.btn-wa-contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 40px;
+    background: var(--gradient-gold);
+    color: var(--color-dark);
     border-radius: var(--radius-md);
-    border: 1px solid var(--color-gray-light);
+    font-weight: 600;
+    font-size: 1.0625rem;
     transition: var(--transition);
+    box-shadow: var(--shadow-gold);
+    margin-bottom: 32px;
 }
 
-.contact-item:hover {
-    border-color: var(--brand-gold);
-    transform: translateX(8px);
+.btn-wa-contact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.3);
 }
 
-.contact-icon {
+.btn-wa-contact svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-dark);
+}
+
+.contact-social-label {
+    font-size: 0.9375rem;
+    color: var(--color-gray);
+    margin-bottom: 16px;
+}
+
+.contact-social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.contact-social-icons a {
     width: 48px;
     height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--gradient-gold);
+    background: var(--color-gray-dark);
     border-radius: var(--radius-md);
-    flex-shrink: 0;
+    transition: var(--transition);
 }
 
-.contact-icon svg {
+.contact-social-icons a:hover {
+    background: var(--brand-gold);
+    transform: translateY(-4px);
+}
+
+.contact-social-icons svg {
     width: 24px;
     height: 24px;
-    color: var(--color-dark);
-}
-
-.contact-item h4 {
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: var(--color-dark);
-}
-
-.contact-item a {
-    color: var(--brand-gold);
-    font-weight: 600;
-}
-
-.contact-item a:hover {
-    text-decoration: underline;
+    fill: var(--color-white);
 }
 
 /* ========================================
@@ -876,16 +1084,37 @@ button {
     background: var(--color-white);
 }
 
-.payment-content {
+.payment-methods {
     max-width: 900px;
     margin: 0 auto;
-    text-align: center;
 }
 
-.payment-image {
-    width: 100%;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
+.payment-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.payment-row:last-child {
+    margin-bottom: 0;
+}
+
+.payment-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.payment-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 /* ========================================
@@ -894,51 +1123,76 @@ button {
 .footer {
     background: var(--gradient-dark);
     color: var(--color-white);
-    padding: 60px 0 24px;
+    padding: 60px 0 40px;
 }
 
-.footer-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    gap: 40px;
-    margin-bottom: 40px;
+.footer-center {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .footer-logo {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 12px;
     font-family: var(--font-secondary);
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--color-white);
     margin-bottom: 16px;
 }
 
 .footer-logo img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
 }
 
-.footer-about p {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 24px;
+.footer-tagline {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 32px;
     line-height: 1.8;
+    font-size: 1.0625rem;
+}
+
+.footer-contact-simple {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9375rem;
+}
+
+.footer-contact-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--brand-gold);
+    flex-shrink: 0;
 }
 
 .footer-social {
     display: flex;
-    gap: 12px;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
 }
 
 .footer-social a {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-full);
     transition: var(--transition);
 }
 
@@ -948,68 +1202,18 @@ button {
 }
 
 .footer-social svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
 }
 
-.footer-links h4,
-.footer-contact h4 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--color-white);
-}
-
-.footer-links ul,
-.footer-contact ul {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.footer-links a {
-    color: rgba(255, 255, 255, 0.7);
-    transition: var(--transition);
-}
-
-.footer-links a:hover {
-    color: var(--brand-gold);
-    padding-left: 8px;
-}
-
-.footer-contact li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.footer-contact svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-}
-
-.footer-contact a {
-    color: var(--brand-gold);
-}
-
-.footer-contact a:hover {
-    text-decoration: underline;
-}
-
-.footer-bottom {
+.footer-copyright {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
     padding-top: 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-}
-
-.footer-bottom p {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.875rem;
 }
 
 /* ========================================
@@ -1095,23 +1299,7 @@ button {
         --section-padding: 60px 0;
     }
 
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
 
-    .hero-image {
-        order: -1;
-    }
-
-    .contact-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .footer-content {
-        grid-template-columns: repeat(2, 1fr);
-    }
 
     .catalog-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1120,6 +1308,24 @@ button {
 
 /* Mobile */
 @media (max-width: 768px) {
+    .contact-card {
+        flex-direction: column;
+        padding: 32px;
+        gap: 32px;
+    }
+
+    .contact-mascot img {
+        width: 150px;
+    }
+
+    .payment-row {
+        gap: 20px;
+    }
+
+    .payment-logo {
+        height: 36px;
+    }
+
     .nav-menu {
         position: fixed;
         top: 72px;
@@ -1179,9 +1385,29 @@ button {
     }
 
     .why-us-grid,
-    .features-grid,
-    .testimonials-grid {
+    .features-grid {
         grid-template-columns: 1fr;
+    }
+
+    .testimonials-nav-prev {
+        left: 10px;
+    }
+
+    .testimonials-nav-next {
+        right: 10px;
+    }
+
+    .testimonial-card {
+        padding: 28px;
+    }
+
+    .love-story-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .love-story-card {
+        padding: 24px;
     }
 
     .catalog-toggle {
@@ -1194,7 +1420,9 @@ button {
     }
 
     .catalog-tabs {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .catalog-tab {
@@ -1203,12 +1431,17 @@ button {
     }
 
     .catalog-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
     }
 
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 32px;
+    .catalog-item {
+        font-size: 0.9rem;
+    }
+
+    .footer-contact-simple {
+        flex-direction: column;
+        gap: 16px;
     }
 
     .whatsapp-float {
@@ -1227,25 +1460,146 @@ button {
 @media (max-width: 480px) {
     :root {
         --container-padding: 0 16px;
+        --section-padding: 50px 0;
     }
 
     .section-header {
         margin-bottom: 40px;
     }
 
-    .why-us-card,
-    .feature-card,
-    .testimonial-card {
+    .contact-card {
         padding: 24px;
+        gap: 24px;
     }
 
-    .hero-stats {
+    .contact-mascot img {
+        width: 120px;
+    }
+
+    .btn-wa-contact {
+        padding: 12px 32px;
+        font-size: 0.9375rem;
+    }
+
+    .contact-social-icons a {
+        width: 44px;
+        height: 44px;
+    }
+
+    .contact-social-icons svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .payment-row {
+        gap: 16px;
+    }
+
+    .payment-logo {
+        height: 32px;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.9375rem;
+    }
+
+    .why-us-card,
+    .feature-card,
+    .testimonial-card,
+    .love-story-card {
         padding: 20px;
     }
 
-    .btn {
-        padding: 12px 24px;
+    .hero {
+        padding: 90px 0 50px;
+    }
+
+    .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .hero-subtitle {
         font-size: 0.9375rem;
+    }
+
+    .hero-stats {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .stat-label {
+        font-size: 0.8125rem;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.9375rem;
+    }
+
+    .catalog-item-name {
+        font-size: 1rem;
+    }
+
+    .catalog-item-price-current {
+        font-size: 1.25rem;
+    }
+
+    .catalog-btn {
+        padding: 8px 12px;
+        font-size: 0.8125rem;
+    }
+
+    .love-story-icon {
+        font-size: 2.75rem;
+    }
+
+    .love-story-card h3 {
+        font-size: 1.0625rem;
+    }
+
+    .testimonials-nav {
+        width: 40px;
+        height: 40px;
+    }
+
+    .testimonials-nav svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+    }
+
+    .footer-logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .footer-tagline {
+        font-size: 0.9375rem;
+    }
+
+    .footer-contact-item {
+        font-size: 0.875rem;
+    }
+
+    .footer-social a {
+        width: 44px;
+        height: 44px;
+    }
+
+    .footer-social svg {
+        width: 20px;
+        height: 20px;
     }
 }
 
