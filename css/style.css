@@ -238,82 +238,100 @@ button {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: var(--color-white);
-    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
     z-index: 1000;
-    padding: 8px 0 12px;
+    padding: 6px 0 10px;
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 .bottom-nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 8px 12px;
+    gap: 3px;
+    padding: 6px 10px;
     color: var(--color-gray);
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     position: relative;
     flex: 1;
-    max-width: 80px;
+    max-width: 75px;
 }
 
 .bottom-nav-item svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     stroke-width: 2;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bottom-nav-item span {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.3px;
 }
 
 .bottom-nav-item.active {
     color: var(--brand-gold);
 }
 
+.bottom-nav-item.active svg {
+    transform: translateY(-2px);
+}
+
 .bottom-nav-item:hover {
     color: var(--brand-gold);
 }
 
-/* Center Item (Katalog) */
+.bottom-nav-item:hover svg {
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Center Item (Tema) */
 .bottom-nav-item-center {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .bottom-nav-icon-wrapper {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     background: var(--gradient-gold);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-gold);
-    transition: var(--transition);
-    margin-bottom: 4px;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25), 0 2px 8px rgba(212, 175, 55, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 3px;
+    border: 2px solid var(--color-white);
 }
 
 .bottom-nav-item-center svg {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     fill: var(--color-dark);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bottom-nav-item-center:hover .bottom-nav-icon-wrapper {
-    transform: scale(1.1);
-    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.4);
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.35), 0 3px 12px rgba(212, 175, 55, 0.2);
+}
+
+.bottom-nav-item-center:hover svg {
+    transform: rotate(15deg);
 }
 
 .bottom-nav-item-center span {
     color: var(--color-dark);
     font-weight: 600;
+    font-size: 0.7rem;
 }
 
 /* ========================================
@@ -1289,41 +1307,49 @@ button {
 /* Mobile */
 @media (max-width: 768px) {
     :root {
-        --section-padding: 35px 0;
+        --section-padding: 28px 0;
+    }
+
+    body {
+        padding-bottom: 65px;
     }
 
     .section-header {
-        margin-bottom: 30px;
+        margin-bottom: 24px;
+    }
+
+    .section-title {
+        margin-bottom: 10px;
     }
 
     .contact-card {
         flex-direction: column;
-        padding: 28px 20px;
-        gap: 24px;
+        padding: 24px 18px;
+        gap: 20px;
     }
 
     .contact-mascot img {
-        width: 130px;
+        width: 120px;
     }
 
     .hero {
-        padding: 90px 0 35px;
+        padding: 85px 0 28px;
     }
 
     .hero-content {
-        margin-bottom: 28px;
+        margin-bottom: 24px;
     }
 
     .hero-stats {
         flex-direction: row;
-        gap: 16px;
-        padding: 16px 14px;
-        margin-bottom: 24px;
+        gap: 14px;
+        padding: 14px 12px;
+        margin-bottom: 20px;
     }
 
     .stat-divider {
         width: 2px;
-        height: 40px;
+        height: 38px;
     }
 
     .stat-item {
@@ -1332,37 +1358,47 @@ button {
 
     .hero-buttons {
         flex-direction: column;
+        gap: 12px;
     }
 
     .hero-buttons .btn {
         width: 100%;
     }
 
+    .hero-image-bottom {
+        margin-top: 24px;
+    }
+
     .why-us-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 14px;
+    }
+
+    .why-us-card {
+        padding: 18px 14px;
     }
 
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 14px;
     }
 
     .feature-card {
-        padding: 20px 16px;
+        padding: 18px 14px;
     }
 
     .feature-card h3 {
-        font-size: 1.0625rem;
+        font-size: 1rem;
+        margin-bottom: 6px;
     }
 
     .feature-card p {
-        font-size: 0.875rem;
+        font-size: 0.85rem;
     }
 
     .feature-icon {
-        font-size: 2.5rem;
-        margin-bottom: 12px;
+        font-size: 2.3rem;
+        margin-bottom: 10px;
     }
 
     .testimonials-nav-prev {
@@ -1374,211 +1410,276 @@ button {
     }
 
     .testimonial-card {
-        padding: 24px;
+        padding: 22px;
     }
 
     .love-story-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 14px;
     }
 
     .love-story-card {
-        padding: 20px;
+        padding: 18px;
     }
 
     .catalog-toggle {
         flex-direction: column;
+        margin-bottom: 32px;
     }
 
     .catalog-toggle-btn {
         width: 100%;
         justify-content: center;
+        padding: 14px 28px;
     }
 
     .catalog-tabs {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 10px;
+        margin-bottom: 28px;
     }
 
     .catalog-tab {
         width: 100%;
         text-align: center;
+        padding: 10px 20px;
     }
 
     .catalog-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 14px;
     }
 
     .catalog-item {
         font-size: 0.9rem;
     }
 
+    .catalog-item-info {
+        padding: 16px;
+    }
+
+    .catalog-item-name {
+        font-size: 1.05rem;
+        margin-bottom: 10px;
+    }
+
+    .catalog-item-price {
+        margin-bottom: 14px;
+    }
+
     .footer-contact-simple {
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
+    }
+
+    .faq-item {
+        margin-bottom: 12px;
+    }
+
+    .faq-question {
+        padding: 16px 20px;
+        font-size: 1rem;
+    }
+
+    .faq-answer p {
+        padding: 0 20px 16px;
     }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
     :root {
-        --container-padding: 0 14px;
-        --section-padding: 30px 0;
+        --container-padding: 0 12px;
+        --section-padding: 24px 0;
+    }
+
+    body {
+        padding-bottom: 62px;
     }
 
     .section-header {
-        margin-bottom: 24px;
-    }
-
-    .contact-card {
-        padding: 20px 16px;
-        gap: 16px;
-    }
-
-    .contact-mascot img {
-        width: 110px;
-    }
-
-    .btn-wa-contact {
-        padding: 12px 32px;
-        font-size: 0.9375rem;
-    }
-
-    .contact-social-icons a {
-        width: 44px;
-        height: 44px;
-    }
-
-    .contact-social-icons svg {
-        width: 20px;
-        height: 20px;
+        margin-bottom: 20px;
     }
 
     .section-title {
         font-size: 1.75rem;
+        margin-bottom: 8px;
     }
 
     .section-subtitle {
-        font-size: 0.9375rem;
+        font-size: 0.9rem;
+    }
+
+    .contact-card {
+        padding: 18px 14px;
+        gap: 14px;
+    }
+
+    .contact-mascot img {
+        width: 100px;
+    }
+
+    .btn-wa-contact {
+        padding: 11px 28px;
+        font-size: 0.9rem;
+    }
+
+    .contact-social-icons a {
+        width: 42px;
+        height: 42px;
+    }
+
+    .contact-social-icons svg {
+        width: 19px;
+        height: 19px;
     }
 
     .why-us-card {
-        padding: 16px 12px;
+        padding: 14px 10px;
     }
 
     .why-us-card h3 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
     }
 
     .why-us-card p {
-        font-size: 0.8125rem;
+        font-size: 0.8rem;
+        line-height: 1.5;
     }
 
     .why-us-icon {
-        width: 52px;
-        height: 52px;
-        margin-bottom: 12px;
-    }
-
-    .why-us-icon svg {
-        width: 26px;
-        height: 26px;
-    }
-
-    .feature-card {
-        padding: 16px 12px;
-    }
-
-    .feature-icon {
-        font-size: 2.25rem;
+        width: 48px;
+        height: 48px;
         margin-bottom: 10px;
     }
 
+    .why-us-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .feature-card {
+        padding: 14px 10px;
+    }
+
+    .feature-icon {
+        font-size: 2.1rem;
+        margin-bottom: 8px;
+    }
+
     .feature-card h3 {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
     }
 
     .feature-card p {
-        font-size: 0.8125rem;
+        font-size: 0.8rem;
+        line-height: 1.5;
     }
 
     .testimonial-card,
     .love-story-card {
-        padding: 20px;
+        padding: 18px;
     }
 
     .hero {
-        padding: 80px 0 30px;
+        padding: 78px 0 24px;
     }
 
     .hero-content {
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
 
     .hero-title {
         font-size: 1.875rem;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
     }
 
     .hero-subtitle {
-        font-size: 0.9375rem;
-        margin-bottom: 20px;
+        font-size: 0.9rem;
+        margin-bottom: 18px;
     }
 
     .hero-stats {
-        padding: 14px 10px;
+        padding: 12px 10px;
         gap: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
 
     .stat-number {
-        font-size: 1.625rem;
+        font-size: 1.5rem;
     }
 
     .stat-label {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
     }
 
     .stat-divider {
-        height: 35px;
+        height: 34px;
+    }
+
+    .hero-image-bottom {
+        margin-top: 20px;
     }
 
     .btn {
-        padding: 12px 20px;
-        font-size: 0.9375rem;
+        padding: 11px 18px;
+        font-size: 0.9rem;
+    }
+
+    .catalog-toggle-btn {
+        padding: 12px 24px;
+    }
+
+    .catalog-tab {
+        padding: 9px 16px;
     }
 
     .catalog-item-name {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+    }
+
+    .catalog-item-price {
+        margin-bottom: 12px;
     }
 
     .catalog-item-price-current {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
+    }
+
+    .catalog-item-info {
+        padding: 14px;
     }
 
     .catalog-btn {
-        padding: 8px 12px;
-        font-size: 0.8125rem;
+        padding: 8px 10px;
+        font-size: 0.8rem;
     }
 
     .love-story-icon {
-        font-size: 2.75rem;
+        font-size: 2.6rem;
     }
 
     .love-story-card h3 {
-        font-size: 1.0625rem;
+        font-size: 1rem;
+        margin-bottom: 8px;
     }
 
     .testimonials-nav {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
     }
 
     .testimonials-nav svg {
-        width: 20px;
-        height: 20px;
+        width: 19px;
+        height: 19px;
+    }
+
+    .footer {
+        padding: 50px 0 32px;
     }
 
     .footer-logo {
@@ -1586,26 +1687,45 @@ button {
     }
 
     .footer-logo img {
-        width: 40px;
-        height: 40px;
+        width: 38px;
+        height: 38px;
     }
 
     .footer-tagline {
-        font-size: 0.9375rem;
+        font-size: 0.9rem;
+        margin-bottom: 28px;
+    }
+
+    .footer-contact-simple {
+        margin-bottom: 28px;
     }
 
     .footer-contact-item {
-        font-size: 0.875rem;
+        font-size: 0.85rem;
+    }
+
+    .footer-social {
+        margin-bottom: 28px;
     }
 
     .footer-social a {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
     }
 
     .footer-social svg {
-        width: 20px;
-        height: 20px;
+        width: 19px;
+        height: 19px;
+    }
+
+    .faq-question {
+        padding: 14px 18px;
+        font-size: 0.95rem;
+    }
+
+    .faq-answer p {
+        padding: 0 18px 14px;
+        font-size: 0.85rem;
     }
 }
 
