@@ -23,6 +23,9 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="logo">
                     <i class="fas fa-quran"></i>
                     <h1>Al-Quran Digital</h1>
@@ -44,19 +47,37 @@
         </div>
     </header>
 
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Daftar Surah</h2>
+            <button class="sidebar-close" id="sidebar-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Search Section -->
+        <div class="sidebar-search">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Cari surah..." autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Surah List -->
+        <div id="surah-list" class="sidebar-surah-list">
+            <!-- Surah items will be inserted here -->
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <!-- Main Content -->
     <main class="main">
         <div class="container">
             <!-- Home Page -->
             <div id="home-page" class="page active">
-                <!-- Search Section -->
-                <section class="search-section">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="search-input" placeholder="Cari surah..." autocomplete="off">
-                    </div>
-                </section>
-
                 <!-- Stats Section -->
                 <section class="stats-section">
                     <div class="stat-card">
@@ -82,11 +103,12 @@
                     </div>
                 </section>
 
-                <!-- Surah List -->
-                <section class="surah-section">
-                    <h2 class="section-title">Daftar Surah</h2>
-                    <div id="surah-list" class="surah-list">
-                        <!-- Surah cards will be inserted here -->
+                <!-- Welcome Section -->
+                <section class="welcome-section">
+                    <div class="welcome-card">
+                        <i class="fas fa-book-quran"></i>
+                        <h2>Selamat Datang di Al-Quran Digital</h2>
+                        <p>Pilih surah dari sidebar untuk mulai membaca</p>
                     </div>
                 </section>
             </div>
