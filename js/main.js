@@ -488,7 +488,7 @@ function playAyah(index) {
     currentAyahIndex = index;
     const ayah = currentSurah.ayahs[index];
 
-    // Show audio player
+    // Show audio player with smooth transition
     elements.audioPlayer.classList.remove('hidden');
     elements.currentAyahSpan.textContent = `Ayat ${ayah.number}`;
 
@@ -498,22 +498,50 @@ function playAyah(index) {
         setupAudioEvents();
     }
 
+    // Remove previous active ayah highlight
+    document.querySelectorAll('.ayat-card.playing').forEach(card => {
+        card.classList.remove('playing');
+    });
+
+    // Add active class to current ayah
+    const ayahCard = document.querySelector(`.ayat-card[data-ayah-index="${index}"]`);
+    if (ayahCard) {
+        ayahCard.classList.add('playing');
+        // Scroll to current ayah card smoothly with offset for audio player
+        setTimeout(() => {
+            ayahCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+
     // Load and play audio
     audioElement.src = ayah.audio;
-    audioElement.play();
+    audioElement.play().catch(err => {
+        console.error('Error playing audio:', err);
+        showToast('Gagal memutar audio. Silakan coba lagi.');
+        isPlaying = false;
+        updatePlayPauseBtn();
+    });
     isPlaying = true;
     updatePlayPauseBtn();
 }
 
 function togglePlayPause() {
-    if (!audioElement || !audioElement.src) return;
+    if (!audioElement || !audioElement.src) {
+        showToast('Tidak ada audio yang dimuat');
+        return;
+    }
 
     if (isPlaying) {
         audioElement.pause();
+        isPlaying = false;
     } else {
-        audioElement.play();
+        audioElement.play().catch(err => {
+            console.error('Error playing audio:', err);
+            showToast('Gagal memutar audio. Silakan coba lagi.');
+            isPlaying = false;
+        });
+        isPlaying = true;
     }
-    isPlaying = !isPlaying;
     updatePlayPauseBtn();
 }
 
