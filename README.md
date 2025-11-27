@@ -1,276 +1,220 @@
-# S2Moments - Landing Page Undangan Digital Premium
+# 🕌 Al-Quran Digital
 
-Landing page undangan digital premium dengan desain responsive, SEO-friendly, dan mudah diedit.
+Web Al-Quran Digital yang profesional dan modern dengan fitur lengkap untuk membaca, mendengar, dan mempelajari Al-Quran dengan mudah.
 
-## 🌟 Fitur Utama
+![Al-Quran Digital](https://img.shields.io/badge/Al--Quran-Digital-1e7b5f?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
-- ✅ **SEO Optimized** - Meta tags lengkap, structured data, Open Graph
-- ✅ **Fully Responsive** - Desktop, Tablet, Mobile (Android & iOS)
-- ✅ **Fast Loading** - Optimized assets dan lazy loading
-- ✅ **Easy to Edit** - Struktur data katalog yang terorganisir
-- ✅ **Modern Design** - UI/UX yang clean dan elegan
-- ✅ **Interactive** - Smooth animations dan transitions
-- ✅ **Accessible** - Keyboard navigation dan ARIA labels
+## ✨ Fitur Utama
 
-## 📁 Struktur File
+### 📖 Membaca Al-Quran
+- **114 Surah Lengkap** - Semua surah dalam Al-Quran dengan teks Arab Uthmani
+- **Terjemahan Indonesia** - Setiap ayat dilengkapi dengan terjemahan bahasa Indonesia
+- **Tampilan Responsif** - Optimal di desktop, tablet, dan mobile
+
+### 🔊 Audio Al-Quran
+- **Audio Player Terintegrasi** - Dengarkan bacaan Al-Quran dari Syekh Mishary Alafasy
+- **Kontrol Audio Lengkap** - Play, pause, next, previous ayat
+- **Progress Bar** - Lihat dan kontrol progress audio
+- **Auto Play** - Otomatis melanjutkan ke ayat berikutnya
+
+### 🔍 Pencarian
+- **Cari Surah** - Cari surah berdasarkan nama, terjemahan, atau nomor
+- **Real-time Search** - Hasil pencarian muncul secara instant
+
+### 🔖 Bookmark
+- **Tandai Ayat Favorit** - Simpan ayat-ayat favorit Anda
+- **Akses Cepat** - Akses bookmark dengan mudah melalui halaman khusus
+- **Penyimpanan Lokal** - Bookmark tersimpan di browser Anda
+
+### 🌓 Dark Mode
+- **Mode Gelap & Terang** - Toggle antara tema gelap dan terang
+- **Kenyamanan Mata** - Pilih tema sesuai preferensi Anda
+- **Auto Save** - Preferensi tema tersimpan otomatis
+
+### 📊 Statistik & Tracking
+- **Last Read** - Lihat surah terakhir yang dibaca
+- **Bookmark Counter** - Hitung jumlah ayat yang ditandai
+- **Reading Progress** - Track progress bacaan Anda
+
+### 📋 Fitur Tambahan
+- **Salin Ayat** - Copy ayat dengan mudah untuk dibagikan
+- **Toast Notification** - Notifikasi yang informatif dan tidak mengganggu
+- **Loading State** - Loading indicator yang smooth
+- **Offline Capability** - Data tersimpan untuk akses lebih cepat
+
+## 🚀 Teknologi
+
+- **HTML5** - Struktur semantic dan modern
+- **CSS3** - Custom properties, Flexbox, Grid, Animations
+- **Vanilla JavaScript** - Tanpa framework, performa optimal
+- **API Al-Quran Cloud** - Data Al-Quran gratis dan terpercaya
+- **Font Awesome** - Icon set yang lengkap
+- **Google Fonts** - Amiri (Arab) & Inter (Latin)
+
+## 📦 Struktur Proyek
 
 ```
-demo/
-├── index.html          # File HTML utama
+al-quran-digital/
+├── index.html          # Halaman utama
 ├── css/
-│   └── style.css       # Styling responsive
+│   └── style.css      # Styling lengkap dengan dark mode
 ├── js/
-│   ├── catalog-data.js # Data katalog (MUDAH DIEDIT!)
-│   └── main.js         # JavaScript interaktivity
-└── README.md           # Dokumentasi
+│   └── main.js        # JavaScript untuk semua fitur
+└── README.md          # Dokumentasi
 ```
 
-## 🎨 Cara Mengedit Katalog
+## 🎯 Cara Menggunakan
 
-### 1. Buka File `js/catalog-data.js`
+### 1. Clone atau Download
+```bash
+git clone https://github.com/username/al-quran-digital.git
+cd al-quran-digital
+```
 
-File ini berisi semua data katalog tema yang terstruktur dengan baik.
+### 2. Buka di Browser
+Cukup buka file `index.html` di browser favorit Anda. Tidak perlu instalasi atau setup tambahan!
 
-### 2. Format Data Tema
+### 3. Atau Gunakan Live Server
+Jika menggunakan VS Code:
+```bash
+# Install Live Server extension
+# Klik kanan pada index.html -> Open with Live Server
+```
 
-Setiap tema memiliki format:
+## 💡 Penggunaan Fitur
+
+### Membaca Surah
+1. Pilih surah dari daftar di halaman beranda
+2. Scroll untuk membaca ayat demi ayat
+3. Teks Arab dan terjemahan ditampilkan bersama
+
+### Mendengarkan Audio
+1. Klik tombol **Play Audio** di header surah
+2. Gunakan kontrol audio untuk navigasi
+3. Audio akan otomatis melanjutkan ke ayat berikutnya
+
+### Menandai Ayat
+1. Klik icon **bookmark** pada ayat yang ingin ditandai
+2. Akses bookmark melalui menu **Bookmark**
+3. Hapus bookmark dengan klik icon **trash**
+
+### Mencari Surah
+1. Gunakan search box di halaman beranda
+2. Ketik nama surah, terjemahan, atau nomor
+3. Hasil akan muncul secara real-time
+
+### Mengubah Tema
+1. Klik icon **moon/sun** di header
+2. Tema akan berubah dan tersimpan otomatis
+
+## 🌐 API yang Digunakan
+
+Web ini menggunakan [AlQuran Cloud API](https://alquran.cloud/) yang menyediakan:
+- Teks Al-Quran dalam berbagai edisi
+- Terjemahan dalam berbagai bahasa
+- Audio dari berbagai qari terkenal
+- Gratis dan tidak memerlukan API key
+
+### Endpoint yang Digunakan:
 ```javascript
-{
-    name: "Nama Tema",
-    image: "URL Gambar",
-    demo: "URL Demo"
-}
+// Daftar Surah
+GET https://api.alquran.cloud/v1/surah
+
+// Detail Surah (Arab)
+GET https://api.alquran.cloud/v1/surah/{number}/quran-uthmani
+
+// Terjemahan
+GET https://api.alquran.cloud/v1/surah/{number}/id.indonesian
+
+// Audio
+GET https://api.alquran.cloud/v1/surah/{number}/ar.alafasy
 ```
 
-### 3. Menambah Tema Baru
+## 🎨 Kustomisasi
 
-Contoh menambah tema Luxee baru:
-
-```javascript
-// Di dalam catalogData.wedding.luxee array
-luxee: [
-    // ... tema existing
-    {
-        name: "Luxee 18",
-        image: "https://example.com/image.webp",
-        demo: "https://example.com/demo/"
-    }
-]
-```
-
-### 4. Menghapus Tema
-
-Hapus objek tema yang tidak diinginkan:
-
-```javascript
-// SEBELUM
-luxee: [
-    { name: "Luxee 01", image: "...", demo: "..." },
-    { name: "Luxee 02", image: "...", demo: "..." }, // Hapus ini
-    { name: "Luxee 03", image: "...", demo: "..." }
-]
-
-// SETELAH
-luxee: [
-    { name: "Luxee 01", image: "...", demo: "..." },
-    { name: "Luxee 03", image: "...", demo: "..." }
-]
-```
-
-### 5. Mengedit Tema
-
-Ubah nilai `name`, `image`, atau `demo`:
-
-```javascript
-{
-    name: "Luxee 01 - UPDATED", // Ubah nama
-    image: "https://new-image-url.com/image.webp", // Ubah gambar
-    demo: "https://new-demo-url.com/" // Ubah link demo
-}
-```
-
-## 📝 Mengedit Konten Lainnya
-
-### Testimoni
-Edit langsung di `index.html`, cari section `testimonials`:
-```html
-<div class="testimonial-card">
-    <div class="testimonial-header">
-        <img src="URL_AVATAR" alt="Nama">
-        <div class="testimonial-info">
-            <h4>Nama Lengkap</h4>
-            <!-- Rating tetap 5 bintang -->
-        </div>
-    </div>
-    <p class="testimonial-text">
-        "Testimoni di sini..."
-    </p>
-</div>
-```
-
-### FAQ
-Edit langsung di `index.html`, cari section `faq`:
-```html
-<div class="faq-item">
-    <button class="faq-question">
-        <span>Pertanyaan?</span>
-        <span class="faq-icon">+</span>
-    </button>
-    <div class="faq-answer">
-        <p>Jawaban di sini...</p>
-    </div>
-</div>
-```
-
-### Kontak
-Edit di `index.html`, cari section `contact`:
-```html
-<a href="https://wa.me/NOMOR_BARU" target="_blank">+62 XXX-XXXX-XXXX</a>
-<a href="mailto:EMAIL_BARU">EMAIL_BARU</a>
-```
-
-## 🎯 Mengganti Warna Brand
-
-Edit di `css/style.css`, cari `:root`:
+### Mengubah Warna Tema
+Edit CSS variables di `css/style.css`:
 ```css
 :root {
-    --brand-gold: #D4AF37;        /* Warna utama */
-    --brand-gold-light: #E8D4A8;  /* Warna terang */
-    --brand-gold-dark: #B8941F;   /* Warna gelap */
+    --primary-color: #1e7b5f;  /* Warna utama */
+    --accent-color: #f39c12;   /* Warna aksen */
+    /* ... dan lainnya */
 }
 ```
 
-## 📱 Testing Responsive
-
-### Desktop
-- Buka di browser (Chrome, Firefox, Safari)
-- Lebar minimum: 1200px
-
-### Tablet
-- Gunakan Chrome DevTools (F12)
-- Pilih device: iPad, iPad Pro
-- Lebar: 768px - 992px
-
-### Mobile
-- Gunakan Chrome DevTools (F12)
-- Pilih device: iPhone, Samsung Galaxy
-- Lebar: 320px - 767px
-
-### iOS Specific
-- Testing di Safari (Mac) dengan iOS Simulator
-- Atau langsung di iPhone/iPad
-
-## 🚀 Cara Deploy
-
-### 1. Hosting Sederhana
-Upload semua file ke hosting (cPanel, FTP):
-- Pastikan struktur folder tetap sama
-- Upload ke public_html atau root directory
-
-### 2. GitHub Pages
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin YOUR_REPO_URL
-git push -u origin main
+### Mengubah Qari Audio
+Edit konstanta di `js/main.js`:
+```javascript
+// Ganti dengan qari lain
+const EDITION_AUDIO = 'ar.alafasy';  // Mishary Alafasy
+// const EDITION_AUDIO = 'ar.abdulbasitmurattal';  // Abdul Basit
+// const EDITION_AUDIO = 'ar.minshawi';  // Minshawi
 ```
 
-Aktifkan GitHub Pages di Settings > Pages
-
-### 3. Netlify / Vercel
-- Drag & drop folder `demo` ke Netlify/Vercel
-- Atau connect dengan GitHub repository
-
-## 🔧 Optimasi Performance
-
-### 1. Kompress Gambar
-- Gunakan TinyPNG atau ImageOptim
-- Format WebP untuk gambar modern
-- Ukuran maksimal: 200KB per gambar
-
-### 2. Minify CSS & JS
-```bash
-# Install terlebih dahulu
-npm install -g csso-cli uglify-js
-
-# Minify CSS
-csso css/style.css -o css/style.min.css
-
-# Minify JS
-uglifyjs js/main.js -o js/main.min.js
-uglifyjs js/catalog-data.js -o js/catalog-data.min.js
+### Mengubah Terjemahan
+```javascript
+const EDITION_TRANSLATION = 'id.indonesian';  // Indonesia
+// const EDITION_TRANSLATION = 'en.sahih';  // English
 ```
 
-Lalu update di `index.html`:
-```html
-<link rel="stylesheet" href="css/style.min.css">
-<script src="js/catalog-data.min.js"></script>
-<script src="js/main.min.js"></script>
-```
+## 📱 Responsive Design
 
-### 3. Enable Caching
-Tambahkan `.htaccess` untuk Apache hosting:
-```apache
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/webp "access plus 1 year"
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-</IfModule>
-```
+Web ini fully responsive dengan breakpoint:
+- **Desktop**: > 768px - Full featured layout
+- **Tablet**: 481px - 768px - Optimized layout
+- **Mobile**: < 480px - Mobile-first design
 
-## 📊 SEO Checklist
+## 🔧 Browser Support
 
-- ✅ Meta title dan description
-- ✅ Open Graph tags (Facebook, WhatsApp)
-- ✅ Twitter Card tags
-- ✅ Structured Data (JSON-LD)
-- ✅ Canonical URL
-- ✅ Alt text pada gambar
-- ✅ Semantic HTML (h1, h2, section)
-- ✅ Mobile-friendly
-- ✅ Fast loading speed
+- ✅ Chrome (terbaru)
+- ✅ Firefox (terbaru)
+- ✅ Safari (terbaru)
+- ✅ Edge (terbaru)
+- ✅ Opera (terbaru)
 
-## 🐛 Troubleshooting
+## 🚧 Fitur yang Akan Datang
 
-### Katalog tidak muncul
-1. Periksa console browser (F12)
-2. Pastikan `catalog-data.js` loaded
-3. Cek syntax JavaScript (koma, kurung kurawal)
+- [ ] Tafsir Al-Quran
+- [ ] Asbabun Nuzul (sebab turunnya ayat)
+- [ ] Tajwid color-coding
+- [ ] Multiple qari selection
+- [ ] Download audio untuk offline
+- [ ] Sharing ke social media
+- [ ] PWA (Progressive Web App)
+- [ ] Multi-language support
 
-### Mobile menu tidak berfungsi
-1. Pastikan `main.js` loaded dengan benar
-2. Cek console untuk error JavaScript
+## 🤝 Kontribusi
 
-### Gambar tidak loading
-1. Periksa URL gambar valid
-2. Pastikan CORS enabled di server gambar
-3. Gunakan `https://` bukan `http://`
+Kontribusi sangat diterima! Silakan:
+1. Fork repository ini
+2. Buat branch untuk fitur baru (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
 
-### Stats tidak animasi
-1. Scroll ke section hero
-2. Reload halaman
-3. Pastikan JavaScript tidak error
+## 📝 License
 
-## 📞 Support
+Distributed under the MIT License. See `LICENSE` for more information.
 
-Jika ada pertanyaan atau masalah:
-- Email: admin@s2moments.id
-- WhatsApp: +62 812-1111-4522
+## 👨‍💻 Developer
 
-## 📄 License
+Dibuat dengan ❤️ untuk umat Muslim di seluruh dunia
 
-© 2025 S2Moments. All rights reserved.
+## 🙏 Credits
+
+- **AlQuran Cloud API** - Data Al-Quran gratis
+- **Font Awesome** - Icon set
+- **Google Fonts** - Font Amiri & Inter
+- **Mishary Alafasy** - Audio Al-Quran
+
+## 📧 Kontak
+
+Jika ada pertanyaan atau saran, silakan buat issue di repository ini.
 
 ---
 
-**Dibuat dengan ❤️ untuk S2Moments**
+**Jazakumullah Khairan** 🤲
 
-**Versi:** 1.0.0
-**Terakhir Update:** November 2025
+*Semoga web ini bermanfaat dan memudahkan dalam mempelajari Al-Quran*

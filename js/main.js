@@ -1,544 +1,597 @@
-// ========================================
-// MAIN JAVASCRIPT
-// ========================================
+// ===========================
+// Global Variables & Configuration
+// ===========================
+const API_BASE_URL = 'https://api.alquran.cloud/v1';
+const EDITION_ARABIC = 'quran-uthmani';
+const EDITION_TRANSLATION = 'id.indonesian';
+const EDITION_AUDIO = 'ar.alafasy';
 
+let surahData = [];
+let currentSurah = null;
+let currentAyahIndex = 0;
+let audioElement = null;
+let isPlaying = false;
+
+// ===========================
 // DOM Elements
-const navbar = document.getElementById('navbar');
-const bottomNav = document.getElementById('bottomNav');
-const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-const faqItems = document.querySelectorAll('.faq-item');
-const catalogToggleBtns = document.querySelectorAll('.catalog-toggle-btn');
-const statNumbers = document.querySelectorAll('.stat-number');
-
-// ========================================
-// NAVBAR SCROLL EFFECT
-// ========================================
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    // Add shadow on scroll
-    if (currentScroll > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-
-    lastScroll = currentScroll;
-});
-
-// ========================================
-// ACTIVE BOTTOM NAV LINK ON SCROLL
-// ========================================
-const sections = document.querySelectorAll('section[id]');
-
-function activeBottomNavLink() {
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const bottomNavItem = document.querySelector(`.bottom-nav-item[data-section="${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            bottomNavItems.forEach(item => item.classList.remove('active'));
-            if (bottomNavItem) bottomNavItem.classList.add('active');
-        }
-    });
-}
-
-window.addEventListener('scroll', activeBottomNavLink);
-
-// ========================================
-// STATS COUNTER ANIMATION
-// ========================================
-let hasAnimated = false;
-
-function animateStats() {
-    if (hasAnimated) return;
-
-    const statsSection = document.querySelector('.hero-stats');
-    const rect = statsSection.getBoundingClientRect();
-    const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
-
-    if (isVisible) {
-        hasAnimated = true;
-
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 16); // 60fps
-            let current = 0;
-
-            const updateCounter = () => {
-                current += increment;
-                if (current < target) {
-                    stat.textContent = Math.floor(current).toLocaleString('id-ID');
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    stat.textContent = target.toLocaleString('id-ID');
-                }
-            };
-
-            updateCounter();
-        });
-    }
-}
-
-window.addEventListener('scroll', animateStats);
-window.addEventListener('load', animateStats);
-
-// ========================================
-// FAQ ACCORDION
-// ========================================
-faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-
-    question.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-
-        // Close all FAQ items
-        faqItems.forEach(faq => faq.classList.remove('active'));
-
-        // Open clicked item if it wasn't active
-        if (!isActive) {
-            item.classList.add('active');
-        }
-    });
-});
-
-// ========================================
-// CATALOG SYSTEM
-// ========================================
-
-// Current state
-let currentCategory = 'wedding';
-let currentSubcategory = {
-    wedding: 'luxee',
-    nonWedding: 'engagement'
+// ===========================
+const elements = {
+    loadingScreen: document.getElementById('loading-screen'),
+    searchInput: document.getElementById('search-input'),
+    surahList: document.getElementById('surah-list'),
+    homePage: document.getElementById('home-page'),
+    surahPage: document.getElementById('surah-page'),
+    bookmarksPage: document.getElementById('bookmarks-page'),
+    themeToggle: document.getElementById('theme-toggle'),
+    navBtns: document.querySelectorAll('.nav-btn'),
+    backBtn: document.getElementById('back-to-home'),
+    surahNameArabic: document.getElementById('surah-name-arabic'),
+    surahName: document.getElementById('surah-name'),
+    surahRevelation: document.getElementById('surah-revelation'),
+    surahAyahCount: document.getElementById('surah-ayah-count'),
+    ayatList: document.getElementById('ayat-list'),
+    bismillah: document.getElementById('bismillah'),
+    bookmarksList: document.getElementById('bookmarks-list'),
+    bookmarkCount: document.getElementById('bookmark-count'),
+    lastRead: document.getElementById('last-read'),
+    toast: document.getElementById('toast'),
+    toastMessage: document.getElementById('toast-message'),
+    audioPlayer: document.getElementById('audio-player'),
+    playAudioBtn: document.getElementById('play-audio-btn'),
+    playPauseBtn: document.getElementById('play-pause'),
+    prevAyahBtn: document.getElementById('prev-ayah'),
+    nextAyahBtn: document.getElementById('next-ayah'),
+    currentAyahSpan: document.getElementById('current-ayah'),
+    progressFill: document.getElementById('progress-fill'),
+    currentTime: document.getElementById('current-time'),
+    duration: document.getElementById('duration')
 };
 
-// Initialize catalog
-function initCatalog() {
-    renderCatalog();
-    setupCatalogToggles();
-    setupCatalogTabs();
+// ===========================
+// Initialization
+// ===========================
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+});
+
+async function initializeApp() {
+    try {
+        // Load theme preference
+        loadTheme();
+
+        // Fetch surah list
+        await fetchSurahList();
+
+        // Setup event listeners
+        setupEventListeners();
+
+        // Load bookmark count
+        updateBookmarkCount();
+
+        // Load last read
+        updateLastRead();
+
+        // Hide loading screen
+        setTimeout(() => {
+            elements.loadingScreen.classList.add('hidden');
+        }, 500);
+    } catch (error) {
+        console.error('Initialization error:', error);
+        showToast('Gagal memuat data. Silakan refresh halaman.');
+    }
 }
 
-// Render catalog items
-function renderCatalog() {
-    const weddingGrid = document.getElementById('wedding-themes');
-    const nonWeddingGrid = document.getElementById('non-wedding-themes');
+// ===========================
+// API Functions
+// ===========================
+async function fetchSurahList() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/surah`);
+        const data = await response.json();
 
-    // Render wedding themes
-    const weddingSubcat = currentSubcategory.wedding;
-    const weddingThemes = catalogData.wedding[weddingSubcat];
-    weddingGrid.innerHTML = renderThemes(weddingThemes);
-
-    // Render non-wedding themes
-    const nonWeddingSubcat = currentSubcategory.nonWedding;
-    const nonWeddingThemes = catalogData.nonWedding[nonWeddingSubcat];
-    nonWeddingGrid.innerHTML = renderThemes(nonWeddingThemes);
+        if (data.code === 200) {
+            surahData = data.data;
+            renderSurahList(surahData);
+        } else {
+            throw new Error('Failed to fetch surah list');
+        }
+    } catch (error) {
+        console.error('Error fetching surah list:', error);
+        throw error;
+    }
 }
 
-// Format price to Rupiah format (e.g., 150000 -> Rp 150.000)
-function formatPrice(price) {
-    return 'Rp ' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+async function fetchSurahDetail(surahNumber) {
+    try {
+        // Show loading
+        elements.loadingScreen.classList.remove('hidden');
+
+        // Fetch Arabic text
+        const arabicResponse = await fetch(`${API_BASE_URL}/surah/${surahNumber}/${EDITION_ARABIC}`);
+        const arabicData = await arabicResponse.json();
+
+        // Fetch translation
+        const translationResponse = await fetch(`${API_BASE_URL}/surah/${surahNumber}/${EDITION_TRANSLATION}`);
+        const translationData = await translationResponse.json();
+
+        // Fetch audio
+        const audioResponse = await fetch(`${API_BASE_URL}/surah/${surahNumber}/${EDITION_AUDIO}`);
+        const audioData = await audioResponse.json();
+
+        if (arabicData.code === 200 && translationData.code === 200) {
+            currentSurah = {
+                info: arabicData.data,
+                ayahs: arabicData.data.ayahs.map((ayah, index) => ({
+                    number: ayah.numberInSurah,
+                    arabic: ayah.text,
+                    translation: translationData.data.ayahs[index].text,
+                    audio: audioData.data.ayahs[index].audio
+                }))
+            };
+
+            renderSurahDetail();
+
+            // Save last read
+            saveLastRead(surahNumber);
+            updateLastRead();
+        } else {
+            throw new Error('Failed to fetch surah detail');
+        }
+
+        // Hide loading
+        setTimeout(() => {
+            elements.loadingScreen.classList.add('hidden');
+        }, 300);
+    } catch (error) {
+        console.error('Error fetching surah detail:', error);
+        elements.loadingScreen.classList.add('hidden');
+        showToast('Gagal memuat surah. Silakan coba lagi.');
+    }
 }
 
-// Render themes HTML
-function renderThemes(themes) {
-    return themes.map(theme => `
-        <div class="catalog-item">
-            <div class="catalog-item-image">
-                <img src="${theme.image}" alt="${theme.name}" loading="lazy">
-                <div class="catalog-item-overlay">
-                    <a href="${theme.demo}" target="_blank" rel="noopener noreferrer">Lihat Demo</a>
+// ===========================
+// Render Functions
+// ===========================
+function renderSurahList(surahs) {
+    elements.surahList.innerHTML = '';
+
+    surahs.forEach(surah => {
+        const surahCard = document.createElement('div');
+        surahCard.className = 'surah-card';
+        surahCard.innerHTML = `
+            <div class="surah-number">${surah.number}</div>
+            <div class="surah-info-card">
+                <div class="surah-names">
+                    <span class="surah-name-latin">${surah.englishName}</span>
+                    <span class="surah-name-arabic">${surah.name}</span>
+                </div>
+                <div class="surah-details">
+                    <span>${surah.englishNameTranslation}</span>
+                    <span class="separator">•</span>
+                    <span>${surah.revelationType === 'Meccan' ? 'Makkiyah' : 'Madaniyah'}</span>
+                    <span class="separator">•</span>
+                    <span>${surah.numberOfAyahs} Ayat</span>
                 </div>
             </div>
-            <div class="catalog-item-info">
-                <h3 class="catalog-item-name">${theme.name}</h3>
-                <div class="catalog-item-price">
-                    <span class="catalog-item-price-original">${formatPrice(theme.priceOriginal)}</span>
-                    <span class="catalog-item-price-current">${formatPrice(theme.priceCurrent)}</span>
-                </div>
-                <div class="catalog-item-buttons">
-                    <a href="${theme.demo}" target="_blank" rel="noopener noreferrer" class="catalog-btn catalog-btn-demo">Demo</a>
-                    <a href="https://wa.me/6281211114522?text=Halo,%20saya%20tertarik%20dengan%20tema%20${encodeURIComponent(theme.name)}" target="_blank" class="catalog-btn catalog-btn-order">Order</a>
-                </div>
+        `;
+
+        surahCard.addEventListener('click', () => {
+            fetchSurahDetail(surah.number);
+            showPage('surah');
+        });
+
+        elements.surahList.appendChild(surahCard);
+    });
+}
+
+function renderSurahDetail() {
+    if (!currentSurah) return;
+
+    const info = currentSurah.info;
+
+    // Update header
+    elements.surahNameArabic.textContent = info.name;
+    elements.surahName.textContent = info.englishName;
+    elements.surahRevelation.textContent = info.revelationType === 'Meccan' ? 'Makkiyah' : 'Madaniyah';
+    elements.surahAyahCount.textContent = `${info.numberOfAyahs} Ayat`;
+
+    // Show/hide bismillah (not for Al-Fatihah and At-Taubah)
+    if (info.number === 1 || info.number === 9) {
+        elements.bismillah.style.display = 'none';
+    } else {
+        elements.bismillah.style.display = 'block';
+    }
+
+    // Render ayahs
+    elements.ayatList.innerHTML = '';
+
+    currentSurah.ayahs.forEach((ayah, index) => {
+        const ayatCard = createAyahCard(ayah, index);
+        elements.ayatList.appendChild(ayatCard);
+    });
+
+    // Reset audio player
+    elements.audioPlayer.classList.add('hidden');
+    currentAyahIndex = 0;
+}
+
+function createAyahCard(ayah, index) {
+    const ayatCard = document.createElement('div');
+    ayatCard.className = 'ayat-card';
+    ayatCard.dataset.ayahIndex = index;
+
+    const bookmarkId = `${currentSurah.info.number}-${ayah.number}`;
+    const isBookmarked = isAyahBookmarked(bookmarkId);
+
+    ayatCard.innerHTML = `
+        <div class="ayat-header">
+            <div class="ayat-number">${ayah.number}</div>
+            <div class="ayat-actions">
+                <button class="play-ayah-btn" title="Putar Ayat">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" title="Tandai Ayat">
+                    <i class="fas fa-bookmark"></i>
+                </button>
+                <button class="copy-btn" title="Salin Ayat">
+                    <i class="fas fa-copy"></i>
+                </button>
             </div>
         </div>
-    `).join('');
+        <p class="ayat-arabic">${ayah.arabic}</p>
+        <p class="ayat-translation">${ayah.translation}</p>
+    `;
+
+    // Event listeners
+    const playBtn = ayatCard.querySelector('.play-ayah-btn');
+    playBtn.addEventListener('click', () => playAyah(index));
+
+    const bookmarkBtn = ayatCard.querySelector('.bookmark-btn');
+    bookmarkBtn.addEventListener('click', () => toggleBookmark(ayah, bookmarkBtn));
+
+    const copyBtn = ayatCard.querySelector('.copy-btn');
+    copyBtn.addEventListener('click', () => copyAyah(ayah));
+
+    return ayatCard;
 }
 
-// Setup catalog toggle buttons (Wedding / Non-Wedding)
-function setupCatalogToggles() {
-    catalogToggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
+// ===========================
+// Navigation Functions
+// ===========================
+function showPage(pageName) {
+    const pages = {
+        home: elements.homePage,
+        surah: elements.surahPage,
+        bookmarks: elements.bookmarksPage
+    };
 
-            // Update active state
-            catalogToggleBtns.forEach(b => b.classList.remove('active'));
+    // Hide all pages
+    Object.values(pages).forEach(page => page.classList.remove('active'));
+
+    // Show selected page
+    if (pages[pageName]) {
+        pages[pageName].classList.add('active');
+    }
+
+    // Update nav buttons
+    elements.navBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.page === pageName) {
             btn.classList.add('active');
-
-            // Show/hide catalog content
-            document.querySelectorAll('.catalog-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            const targetContent = document.getElementById(`catalog-${category}`);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
-
-            currentCategory = category;
-        });
-    });
-}
-
-// Setup catalog tabs (Luxee, Adat, Floral, etc.)
-function setupCatalogTabs() {
-    const allTabs = document.querySelectorAll('.catalog-tab');
-
-    allTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const subcategory = tab.getAttribute('data-subcategory');
-            const parentContent = tab.closest('.catalog-content');
-            const isWedding = parentContent.id === 'catalog-wedding';
-
-            // Update active tab within this catalog section
-            const siblings = parentContent.querySelectorAll('.catalog-tab');
-            siblings.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            // Update current subcategory
-            if (isWedding) {
-                currentSubcategory.wedding = subcategory;
-                const themes = catalogData.wedding[subcategory];
-                const grid = document.getElementById('wedding-themes');
-                grid.innerHTML = renderThemes(themes);
-            } else {
-                currentSubcategory.nonWedding = subcategory;
-                const themes = catalogData.nonWedding[subcategory];
-                const grid = document.getElementById('non-wedding-themes');
-                grid.innerHTML = renderThemes(themes);
-            }
-
-            // Smooth scroll animation
-            const grid = isWedding ?
-                document.getElementById('wedding-themes') :
-                document.getElementById('non-wedding-themes');
-
-            grid.style.opacity = '0';
-            grid.style.transform = 'translateY(20px)';
-
-            setTimeout(() => {
-                grid.style.transition = 'all 0.5s ease';
-                grid.style.opacity = '1';
-                grid.style.transform = 'translateY(0)';
-            }, 50);
-        });
-    });
-}
-
-// ========================================
-// SMOOTH SCROLL FOR ANCHOR LINKS
-// ========================================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-
-        // Ignore empty hash or javascript:void(0)
-        if (href === '#' || href === '#!') return;
-
-        const target = document.querySelector(href);
-        if (target) {
-            e.preventDefault();
-            const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
         }
     });
-});
 
-// ========================================
-// LAZY LOADING IMAGES
-// ========================================
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
-                }
-                observer.unobserve(img);
-            }
+    // Load bookmarks if bookmarks page
+    if (pageName === 'bookmarks') {
+        renderBookmarks();
+    }
+}
+
+// ===========================
+// Audio Functions
+// ===========================
+function playAyah(index) {
+    if (!currentSurah || !currentSurah.ayahs[index]) return;
+
+    currentAyahIndex = index;
+    const ayah = currentSurah.ayahs[index];
+
+    // Show audio player
+    elements.audioPlayer.classList.remove('hidden');
+    elements.currentAyahSpan.textContent = `Ayat ${ayah.number}`;
+
+    // Initialize audio element if not exists
+    if (!audioElement) {
+        audioElement = document.getElementById('audio-element');
+        setupAudioEvents();
+    }
+
+    // Load and play audio
+    audioElement.src = ayah.audio;
+    audioElement.play();
+    isPlaying = true;
+    updatePlayPauseBtn();
+}
+
+function togglePlayPause() {
+    if (!audioElement || !audioElement.src) return;
+
+    if (isPlaying) {
+        audioElement.pause();
+    } else {
+        audioElement.play();
+    }
+    isPlaying = !isPlaying;
+    updatePlayPauseBtn();
+}
+
+function playPrevAyah() {
+    if (currentAyahIndex > 0) {
+        playAyah(currentAyahIndex - 1);
+    }
+}
+
+function playNextAyah() {
+    if (currentAyahIndex < currentSurah.ayahs.length - 1) {
+        playAyah(currentAyahIndex + 1);
+    } else {
+        // End of surah
+        audioElement.pause();
+        isPlaying = false;
+        updatePlayPauseBtn();
+        showToast('Akhir surah tercapai');
+    }
+}
+
+function updatePlayPauseBtn() {
+    const icon = elements.playPauseBtn.querySelector('i');
+    icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+}
+
+function setupAudioEvents() {
+    audioElement.addEventListener('timeupdate', () => {
+        const progress = (audioElement.currentTime / audioElement.duration) * 100;
+        elements.progressFill.style.width = `${progress}%`;
+        elements.currentTime.textContent = formatTime(audioElement.currentTime);
+    });
+
+    audioElement.addEventListener('loadedmetadata', () => {
+        elements.duration.textContent = formatTime(audioElement.duration);
+    });
+
+    audioElement.addEventListener('ended', () => {
+        playNextAyah();
+    });
+}
+
+function formatTime(seconds) {
+    if (isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ===========================
+// Bookmark Functions
+// ===========================
+function toggleBookmark(ayah, button) {
+    const bookmarkId = `${currentSurah.info.number}-${ayah.number}`;
+    const bookmarks = getBookmarks();
+
+    if (isAyahBookmarked(bookmarkId)) {
+        // Remove bookmark
+        const index = bookmarks.findIndex(b => b.id === bookmarkId);
+        bookmarks.splice(index, 1);
+        button.classList.remove('active');
+        showToast('Bookmark dihapus');
+    } else {
+        // Add bookmark
+        bookmarks.push({
+            id: bookmarkId,
+            surahNumber: currentSurah.info.number,
+            surahName: currentSurah.info.englishName,
+            surahNameArabic: currentSurah.info.name,
+            ayahNumber: ayah.number,
+            arabic: ayah.arabic,
+            translation: ayah.translation,
+            audio: ayah.audio
+        });
+        button.classList.add('active');
+        showToast('Bookmark ditambahkan');
+    }
+
+    saveBookmarks(bookmarks);
+    updateBookmarkCount();
+}
+
+function isAyahBookmarked(bookmarkId) {
+    const bookmarks = getBookmarks();
+    return bookmarks.some(b => b.id === bookmarkId);
+}
+
+function getBookmarks() {
+    const bookmarks = localStorage.getItem('quran_bookmarks');
+    return bookmarks ? JSON.parse(bookmarks) : [];
+}
+
+function saveBookmarks(bookmarks) {
+    localStorage.setItem('quran_bookmarks', JSON.stringify(bookmarks));
+}
+
+function updateBookmarkCount() {
+    const bookmarks = getBookmarks();
+    elements.bookmarkCount.textContent = bookmarks.length;
+}
+
+function renderBookmarks() {
+    const bookmarks = getBookmarks();
+
+    if (bookmarks.length === 0) {
+        elements.bookmarksList.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-bookmark"></i>
+                <p>Belum ada ayat yang ditandai</p>
+                <small>Tandai ayat favorit Anda untuk akses cepat</small>
+            </div>
+        `;
+        return;
+    }
+
+    elements.bookmarksList.innerHTML = '';
+
+    bookmarks.forEach((bookmark, index) => {
+        const ayatCard = document.createElement('div');
+        ayatCard.className = 'ayat-card';
+
+        ayatCard.innerHTML = `
+            <div class="ayat-header">
+                <div class="ayat-number">${bookmark.surahName} - ${bookmark.ayahNumber}</div>
+                <div class="ayat-actions">
+                    <button class="remove-bookmark-btn" title="Hapus Bookmark">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="ayat-arabic">${bookmark.arabic}</p>
+            <p class="ayat-translation">${bookmark.translation}</p>
+        `;
+
+        const removeBtn = ayatCard.querySelector('.remove-bookmark-btn');
+        removeBtn.addEventListener('click', () => {
+            bookmarks.splice(index, 1);
+            saveBookmarks(bookmarks);
+            updateBookmarkCount();
+            renderBookmarks();
+            showToast('Bookmark dihapus');
+        });
+
+        elements.bookmarksList.appendChild(ayatCard);
+    });
+}
+
+// ===========================
+// Search Function
+// ===========================
+function setupSearch() {
+    elements.searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+
+        if (query === '') {
+            renderSurahList(surahData);
+            return;
+        }
+
+        const filtered = surahData.filter(surah =>
+            surah.englishName.toLowerCase().includes(query) ||
+            surah.englishNameTranslation.toLowerCase().includes(query) ||
+            surah.number.toString().includes(query)
+        );
+
+        renderSurahList(filtered);
+    });
+}
+
+// ===========================
+// Theme Functions
+// ===========================
+function loadTheme() {
+    const theme = localStorage.getItem('quran_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('quran_theme', newTheme);
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const icon = elements.themeToggle.querySelector('i');
+    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+// ===========================
+// Last Read Functions
+// ===========================
+function saveLastRead(surahNumber) {
+    const surah = surahData.find(s => s.number === surahNumber);
+    if (surah) {
+        localStorage.setItem('quran_last_read', JSON.stringify({
+            number: surah.number,
+            name: surah.englishName
+        }));
+    }
+}
+
+function updateLastRead() {
+    const lastRead = localStorage.getItem('quran_last_read');
+    if (lastRead) {
+        const data = JSON.parse(lastRead);
+        elements.lastRead.textContent = data.name;
+    } else {
+        elements.lastRead.textContent = '-';
+    }
+}
+
+// ===========================
+// Utility Functions
+// ===========================
+function copyAyah(ayah) {
+    const text = `${ayah.arabic}\n\n${ayah.translation}\n\n(QS. ${currentSurah.info.englishName}: ${ayah.number})`;
+
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('Ayat berhasil disalin');
+    }).catch(() => {
+        showToast('Gagal menyalin ayat');
+    });
+}
+
+function showToast(message) {
+    elements.toastMessage.textContent = message;
+    elements.toast.classList.add('show');
+
+    setTimeout(() => {
+        elements.toast.classList.remove('show');
+    }, 3000);
+}
+
+// ===========================
+// Event Listeners
+// ===========================
+function setupEventListeners() {
+    // Navigation
+    elements.navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            showPage(btn.dataset.page);
         });
     });
 
-    // Observe all images with data-src attribute
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
-
-// ========================================
-// PREVENT LAYOUT SHIFT
-// ========================================
-window.addEventListener('load', () => {
-    // Force layout recalculation after all resources loaded
-    document.body.style.visibility = 'visible';
-});
-
-// ========================================
-// PERFORMANCE: Debounce scroll events
-// ========================================
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Apply debounce to scroll-heavy functions
-const debouncedActiveBottomNavLink = debounce(activeBottomNavLink, 100);
-const debouncedAnimateStats = debounce(animateStats, 100);
-
-window.removeEventListener('scroll', activeBottomNavLink);
-window.removeEventListener('scroll', animateStats);
-window.addEventListener('scroll', debouncedActiveBottomNavLink);
-window.addEventListener('scroll', debouncedAnimateStats);
-
-// ========================================
-// ACCESSIBILITY: Keyboard navigation
-// ========================================
-document.addEventListener('keydown', (e) => {
-    // Close active FAQ on Escape
-    if (e.key === 'Escape') {
-        faqItems.forEach(item => item.classList.remove('active'));
-    }
-});
-
-// ========================================
-// FORM VALIDATION (if needed in future)
-// ========================================
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function validatePhone(phone) {
-    const re = /^[\d\s\-\+\(\)]+$/;
-    return re.test(phone);
-}
-
-// ========================================
-// TESTIMONIALS SLIDER
-// ========================================
-let currentTestimonial = 0;
-const testimonials = document.querySelectorAll('.testimonial-slide');
-const testimonialsTrack = document.querySelector('.testimonials-track');
-const testimonialsPrev = document.querySelector('.testimonials-nav-prev');
-const testimonialsNext = document.querySelector('.testimonials-nav-next');
-const testimonialsDotsContainer = document.querySelector('.testimonials-dots');
-
-function initTestimonialsSlider() {
-    // Create dots
-    testimonials.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('testimonial-dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToTestimonial(index));
-        testimonialsDotsContainer.appendChild(dot);
+    elements.backBtn.addEventListener('click', () => {
+        showPage('home');
     });
 
-    // Add event listeners
-    testimonialsPrev.addEventListener('click', previousTestimonial);
-    testimonialsNext.addEventListener('click', nextTestimonial);
+    // Theme toggle
+    elements.themeToggle.addEventListener('click', toggleTheme);
 
-    // Auto play
-    setInterval(nextTestimonial, 5000);
-}
+    // Search
+    setupSearch();
 
-function updateTestimonialSlider() {
-    testimonialsTrack.style.transform = `translateX(-${currentTestimonial * 100}%)`;
+    // Audio controls
+    elements.playAudioBtn.addEventListener('click', () => playAyah(0));
+    elements.playPauseBtn.addEventListener('click', togglePlayPause);
+    elements.prevAyahBtn.addEventListener('click', playPrevAyah);
+    elements.nextAyahBtn.addEventListener('click', playNextAyah);
 
-    // Update dots
-    document.querySelectorAll('.testimonial-dot').forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentTestimonial);
+    // Progress bar click
+    document.querySelector('.progress-bar')?.addEventListener('click', (e) => {
+        if (!audioElement || !audioElement.duration) return;
+
+        const rect = e.currentTarget.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        audioElement.currentTime = percent * audioElement.duration;
     });
-}
-
-function nextTestimonial() {
-    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-    updateTestimonialSlider();
-}
-
-function previousTestimonial() {
-    currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
-    updateTestimonialSlider();
-}
-
-function goToTestimonial(index) {
-    currentTestimonial = index;
-    updateTestimonialSlider();
-}
-
-// ========================================
-// INITIALIZE ON DOM READY
-// ========================================
-document.addEventListener('DOMContentLoaded', () => {
-    initCatalog();
-    initTestimonialsSlider();
-    console.log('S2Moments - Landing Page Loaded Successfully! 🎉');
-});
-
-// ========================================
-// UTILITY FUNCTIONS
-// ========================================
-
-// Format number with thousands separator
-function formatNumber(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-// Get current year for footer
-function updateYear() {
-    const yearElements = document.querySelectorAll('.current-year');
-    const currentYear = new Date().getFullYear();
-    yearElements.forEach(el => {
-        el.textContent = currentYear;
-    });
-}
-
-// Check if element is in viewport
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// ========================================
-// ANALYTICS & TRACKING (Optional)
-// ========================================
-
-// Track button clicks
-function trackButtonClick(buttonName) {
-    console.log(`Button clicked: ${buttonName}`);
-    // Add your analytics code here (Google Analytics, Facebook Pixel, etc.)
-}
-
-// Track catalog item views
-function trackCatalogView(themeName) {
-    console.log(`Catalog viewed: ${themeName}`);
-    // Add your analytics code here
-}
-
-// Add click tracking to CTA buttons
-document.querySelectorAll('.btn-primary, .btn-whatsapp').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const btnText = e.target.textContent.trim();
-        trackButtonClick(btnText);
-    });
-});
-
-// ========================================
-// ERROR HANDLING
-// ========================================
-window.addEventListener('error', (e) => {
-    console.error('Error occurred:', e.error);
-    // You can add error reporting service here (Sentry, LogRocket, etc.)
-});
-
-// ========================================
-// OFFLINE DETECTION
-// ========================================
-window.addEventListener('online', () => {
-    console.log('Connection restored');
-});
-
-window.addEventListener('offline', () => {
-    console.log('Connection lost');
-    // You can show a notification to the user
-});
-
-// ========================================
-// PRELOAD CRITICAL RESOURCES
-// ========================================
-function preloadImage(url) {
-    const img = new Image();
-    img.src = url;
-}
-
-// Preload hero image and logo
-window.addEventListener('load', () => {
-    // Preload critical images for better performance
-    const criticalImages = [
-        'https://s2moments.id/wp-content/uploads/2025/11/logo.png',
-        'https://s2moments.id/wp-content/uploads/2025/11/Momenta-1.png'
-    ];
-
-    criticalImages.forEach(url => preloadImage(url));
-});
-
-// ========================================
-// PROGRESSIVE WEB APP SUPPORT (Optional)
-// ========================================
-if ('serviceWorker' in navigator) {
-    // Uncomment below to enable service worker
-    // window.addEventListener('load', () => {
-    //     navigator.serviceWorker.register('/sw.js')
-    //         .then(registration => console.log('SW registered:', registration))
-    //         .catch(error => console.log('SW registration failed:', error));
-    // });
-}
-
-// ========================================
-// iOS SAFARI FIXES
-// ========================================
-// Fix for iOS Safari viewport height issue
-function setVHProperty() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-setVHProperty();
-window.addEventListener('resize', debounce(setVHProperty, 100));
-
-// Prevent zoom on iOS double tap
-let lastTouchEnd = 0;
-document.addEventListener('touchend', (e) => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
-
-// ========================================
-// EXPORT FOR TESTING (Optional)
-// ========================================
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        validateEmail,
-        validatePhone,
-        formatNumber,
-        isInViewport
-    };
 }
