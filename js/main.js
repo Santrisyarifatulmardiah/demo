@@ -15,6 +15,8 @@ let isPlaying = false;
 let arabicFontSize = 28;
 let currentNoteAyah = null;
 let readingStartTime = null;
+let isAudioLoading = false;
+let lastProgressUpdate = 0;
 
 // Juz mapping data
 const JUZ_MAPPING = [
@@ -484,9 +486,14 @@ function showPage(pageName) {
 // ===========================
 function playAyah(index) {
     if (!currentSurah || !currentSurah.ayahs[index]) return;
+    if (isAudioLoading) return; // Prevent multiple clicks while loading
 
     currentAyahIndex = index;
     const ayah = currentSurah.ayahs[index];
+
+    // Set loading state
+    isAudioLoading = true;
+    updatePlayPauseBtn();
 
     // Show audio player with smooth transition
     elements.audioPlayer.classList.remove('hidden');
@@ -507,22 +514,33 @@ function playAyah(index) {
     const ayahCard = document.querySelector(`.ayat-card[data-ayah-index="${index}"]`);
     if (ayahCard) {
         ayahCard.classList.add('playing');
-        // Scroll to current ayah card smoothly with offset for audio player
-        setTimeout(() => {
-            ayahCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
+        // Optimized scroll for mobile - use requestAnimationFrame
+        requestAnimationFrame(() => {
+            const rect = ayahCard.getBoundingClientRect();
+            const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+            // Only scroll if not in view
+            if (!isInView) {
+                ayahCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
     }
 
     // Load and play audio
     audioElement.src = ayah.audio;
-    audioElement.play().catch(err => {
-        console.error('Error playing audio:', err);
-        showToast('Gagal memutar audio. Silakan coba lagi.');
-        isPlaying = false;
-        updatePlayPauseBtn();
-    });
-    isPlaying = true;
-    updatePlayPauseBtn();
+    audioElement.play()
+        .then(() => {
+            isPlaying = true;
+            isAudioLoading = false;
+            updatePlayPauseBtn();
+        })
+        .catch(err => {
+            console.error('Error playing audio:', err);
+            showToast('Gagal memutar audio. Silakan coba lagi.');
+            isPlaying = false;
+            isAudioLoading = false;
+            updatePlayPauseBtn();
+        });
 }
 
 function togglePlayPause() {
@@ -531,33 +549,48 @@ function togglePlayPause() {
         return;
     }
 
+    if (isAudioLoading) return; // Prevent clicks while loading
+
     if (isPlaying) {
         audioElement.pause();
         isPlaying = false;
+        updatePlayPauseBtn();
     } else {
-        audioElement.play().catch(err => {
-            console.error('Error playing audio:', err);
-            showToast('Gagal memutar audio. Silakan coba lagi.');
-            isPlaying = false;
-        });
-        isPlaying = true;
+        isAudioLoading = true;
+        updatePlayPauseBtn();
+
+        audioElement.play()
+            .then(() => {
+                isPlaying = true;
+                isAudioLoading = false;
+                updatePlayPauseBtn();
+            })
+            .catch(err => {
+                console.error('Error playing audio:', err);
+                showToast('Gagal memutar audio. Silakan coba lagi.');
+                isPlaying = false;
+                isAudioLoading = false;
+                updatePlayPauseBtn();
+            });
     }
-    updatePlayPauseBtn();
 }
 
 function playPrevAyah() {
+    if (isAudioLoading) return; // Prevent clicks while loading
     if (currentAyahIndex > 0) {
         playAyah(currentAyahIndex - 1);
     }
 }
 
 function playNextAyah() {
+    if (isAudioLoading) return; // Prevent clicks while loading
     if (currentAyahIndex < currentSurah.ayahs.length - 1) {
         playAyah(currentAyahIndex + 1);
     } else {
         // End of surah
         audioElement.pause();
         isPlaying = false;
+        isAudioLoading = false;
         updatePlayPauseBtn();
         showToast('Akhir surah tercapai');
     }
@@ -565,23 +598,52 @@ function playNextAyah() {
 
 function updatePlayPauseBtn() {
     const icon = elements.playPauseBtn.querySelector('i');
-    icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+
+    if (isAudioLoading) {
+        icon.className = 'fas fa-spinner fa-spin';
+        elements.playPauseBtn.style.opacity = '0.7';
+    } else {
+        icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        elements.playPauseBtn.style.opacity = '1';
+    }
 }
 
 function setupAudioEvents() {
+    // Throttled timeupdate - only update UI every 100ms to prevent freeze
     audioElement.addEventListener('timeupdate', () => {
-        const progress = (audioElement.currentTime / audioElement.duration) * 100;
-        elements.progressFill.style.width = `${progress}%`;
-        elements.currentTime.textContent = formatTime(audioElement.currentTime);
-    });
+        const now = Date.now();
+        if (now - lastProgressUpdate < 100) return; // Throttle to 10fps
+        lastProgressUpdate = now;
+
+        // Use requestAnimationFrame for smooth UI updates
+        requestAnimationFrame(() => {
+            if (!audioElement.duration || isNaN(audioElement.duration)) return;
+
+            const progress = (audioElement.currentTime / audioElement.duration) * 100;
+            elements.progressFill.style.width = `${progress}%`;
+            elements.currentTime.textContent = formatTime(audioElement.currentTime);
+        });
+    }, { passive: true }); // passive: true for better scroll performance
 
     audioElement.addEventListener('loadedmetadata', () => {
         elements.duration.textContent = formatTime(audioElement.duration);
-    });
+    }, { passive: true });
 
     audioElement.addEventListener('ended', () => {
         playNextAyah();
-    });
+    }, { passive: true });
+
+    // Add canplay event to handle loading state
+    audioElement.addEventListener('canplay', () => {
+        isAudioLoading = false;
+        updatePlayPauseBtn();
+    }, { passive: true });
+
+    // Add waiting event to show loading during buffering
+    audioElement.addEventListener('waiting', () => {
+        isAudioLoading = true;
+        updatePlayPauseBtn();
+    }, { passive: true });
 }
 
 function formatTime(seconds) {
@@ -1320,14 +1382,17 @@ function setupEventListeners() {
     elements.prevAyahBtn.addEventListener('click', playPrevAyah);
     elements.nextAyahBtn.addEventListener('click', playNextAyah);
 
-    // Progress bar click
-    document.querySelector('.progress-bar')?.addEventListener('click', (e) => {
-        if (!audioElement || !audioElement.duration) return;
+    // Progress bar click (optimized for mobile)
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        progressBar.addEventListener('click', (e) => {
+            if (!audioElement || !audioElement.duration || isAudioLoading) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        audioElement.currentTime = percent * audioElement.duration;
-    });
+            const rect = e.currentTarget.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audioElement.currentTime = percent * audioElement.duration;
+        }, { passive: true });
+    }
 
     // Quick access buttons
     elements.continueReadingBtn.addEventListener('click', continueReading);

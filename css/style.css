@@ -757,6 +757,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    touch-action: manipulation; /* Prevent double-tap zoom on mobile */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
+    user-select: none; /* Prevent text selection */
 }
 
 .audio-controls button:hover {
@@ -788,6 +791,8 @@ body {
     overflow: hidden;
     cursor: pointer;
     margin-bottom: 8px;
+    touch-action: manipulation; /* Prevent double-tap zoom on mobile */
+    user-select: none; /* Prevent text selection */
 }
 
 .progress-fill {
@@ -1231,6 +1236,22 @@ body {
 
     .daily-verse-card .ayat-arabic {
         font-size: 24px;
+    }
+
+    /* Audio player mobile optimizations */
+    .progress-bar {
+        height: 10px; /* Larger hit area for mobile */
+        border-radius: 5px;
+    }
+
+    .audio-controls button {
+        width: 48px; /* Slightly larger for easier tapping */
+        height: 48px;
+    }
+
+    #play-pause {
+        width: 60px; /* Larger play button for mobile */
+        height: 60px;
     }
 
     .daily-verse-card .ayat-translation {
