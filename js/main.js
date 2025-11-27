@@ -19,6 +19,10 @@ const elements = {
     loadingScreen: document.getElementById('loading-screen'),
     searchInput: document.getElementById('search-input'),
     surahList: document.getElementById('surah-list'),
+    sidebar: document.getElementById('sidebar'),
+    sidebarToggle: document.getElementById('sidebar-toggle'),
+    sidebarClose: document.getElementById('sidebar-close'),
+    sidebarOverlay: document.getElementById('sidebar-overlay'),
     homePage: document.getElementById('home-page'),
     surahPage: document.getElementById('surah-page'),
     bookmarksPage: document.getElementById('bookmarks-page'),
@@ -156,31 +160,34 @@ function renderSurahList(surahs) {
     elements.surahList.innerHTML = '';
 
     surahs.forEach(surah => {
-        const surahCard = document.createElement('div');
-        surahCard.className = 'surah-card';
-        surahCard.innerHTML = `
-            <div class="surah-number">${surah.number}</div>
-            <div class="surah-info-card">
-                <div class="surah-names">
-                    <span class="surah-name-latin">${surah.englishName}</span>
-                    <span class="surah-name-arabic">${surah.name}</span>
-                </div>
-                <div class="surah-details">
-                    <span>${surah.englishNameTranslation}</span>
-                    <span class="separator">•</span>
-                    <span>${surah.revelationType === 'Meccan' ? 'Makkiyah' : 'Madaniyah'}</span>
-                    <span class="separator">•</span>
-                    <span>${surah.numberOfAyahs} Ayat</span>
-                </div>
+        const surahItem = document.createElement('div');
+        surahItem.className = 'sidebar-surah-item';
+        surahItem.dataset.surahNumber = surah.number;
+        surahItem.innerHTML = `
+            <div class="sidebar-surah-number">${surah.number}</div>
+            <div class="sidebar-surah-info">
+                <div class="sidebar-surah-name">${surah.englishName}</div>
+                <div class="sidebar-surah-meta">${surah.englishNameTranslation} • ${surah.numberOfAyahs} Ayat</div>
             </div>
+            <div class="sidebar-surah-arabic">${surah.name}</div>
         `;
 
-        surahCard.addEventListener('click', () => {
+        surahItem.addEventListener('click', () => {
+            // Remove active class from all items
+            document.querySelectorAll('.sidebar-surah-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // Add active class to clicked item
+            surahItem.classList.add('active');
+
             fetchSurahDetail(surah.number);
             showPage('surah');
+
+            // Close sidebar on mobile
+            closeSidebar();
         });
 
-        elements.surahList.appendChild(surahCard);
+        elements.surahList.appendChild(surahItem);
     });
 }
 
@@ -560,9 +567,37 @@ function showToast(message) {
 }
 
 // ===========================
+// Sidebar Functions
+// ===========================
+function openSidebar() {
+    elements.sidebar.classList.add('active');
+    elements.sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+    elements.sidebar.classList.remove('active');
+    elements.sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function toggleSidebar() {
+    if (elements.sidebar.classList.contains('active')) {
+        closeSidebar();
+    } else {
+        openSidebar();
+    }
+}
+
+// ===========================
 // Event Listeners
 // ===========================
 function setupEventListeners() {
+    // Sidebar toggle
+    elements.sidebarToggle.addEventListener('click', toggleSidebar);
+    elements.sidebarClose.addEventListener('click', closeSidebar);
+    elements.sidebarOverlay.addEventListener('click', closeSidebar);
+
     // Navigation
     elements.navBtns.forEach(btn => {
         btn.addEventListener('click', () => {
