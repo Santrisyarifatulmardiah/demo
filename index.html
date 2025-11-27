@@ -2,686 +2,179 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- SEO Meta Tags -->
-    <title>S2Moments - Undangan Digital Premium | Tema Wedding & Non-Wedding Terlengkap</title>
-    <meta name="description" content="Buat undangan digital premium untuk pernikahan, engagement, aqiqah, khitan, dan acara spesial lainnya. Desain elegan, responsive, fitur lengkap, harga terjangkau. Proses cepat 1x24 jam!">
-    <meta name="keywords" content="undangan digital, undangan online, undangan pernikahan digital, undangan wedding online, undangan digital premium, undangan digital murah, undangan digital elegan, S2Moments">
-    <meta name="author" content="S2Moments">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://s2moments.id/">
-    <meta property="og:title" content="S2Moments - Undangan Digital Premium">
-    <meta property="og:description" content="Buat undangan digital premium untuk pernikahan, engagement, aqiqah, khitan, dan acara spesial lainnya. Desain elegan, responsive, fitur lengkap.">
-    <meta property="og:image" content="https://s2moments.id/wp-content/uploads/2025/11/logo.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://s2moments.id/">
-    <meta property="twitter:title" content="S2Moments - Undangan Digital Premium">
-    <meta property="twitter:description" content="Buat undangan digital premium untuk pernikahan, engagement, aqiqah, khitan, dan acara spesial lainnya.">
-    <meta property="twitter:image" content="https://s2moments.id/wp-content/uploads/2025/11/logo.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://s2moments.id/wp-content/uploads/2025/11/logo.png">
-    <link rel="apple-touch-icon" href="https://s2moments.id/wp-content/uploads/2025/11/logo.png">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://s2moments.id/">
-
-    <!-- Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Al-Quran Digital - Baca, dengar, dan pelajari Al-Quran dengan mudah">
+    <meta name="keywords" content="Al-Quran, Quran, Islam, Digital Quran, Terjemahan">
+    <title>Al-Quran Digital | Baca & Dengar Al-Quran</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "S2Moments",
-      "image": "https://s2moments.id/wp-content/uploads/2025/11/logo.png",
-      "url": "https://s2moments.id/",
-      "telephone": "+6281211114522",
-      "email": "admin@s2moments.id",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "ID"
-      },
-      "priceRange": "$$",
-      "description": "Layanan undangan digital premium untuk wedding, engagement, aqiqah, khitan, birthday, dan acara spesial lainnya."
-    }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <div class="nav-wrapper">
-                <a href="#home" class="logo">
-                    <img src="https://s2moments.id/wp-content/uploads/2025/11/logo.png" alt="S2Moments Logo">
-                    <span>S2Moments</span>
-                </a>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Memuat Al-Quran...</p>
+    </div>
 
-                <a href="https://wa.me/6281211114522" class="btn-primary-nav" target="_blank">Pesan Sekarang</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-quran"></i>
+                    <h1>Al-Quran Digital</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>Beranda</span>
+                    </button>
+                    <button class="nav-btn" data-page="bookmarks">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Bookmark</span>
+                    </button>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </nav>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav" id="bottomNav">
-        <a href="#home" class="bottom-nav-item" data-section="home">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span>Home</span>
-        </a>
-        <a href="#features" class="bottom-nav-item" data-section="features">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-                <polyline points="2 17 12 22 22 17"/>
-                <polyline points="2 12 12 17 22 12"/>
-            </svg>
-            <span>Fitur</span>
-        </a>
-        <a href="#catalog" class="bottom-nav-item bottom-nav-item-center" data-section="catalog">
-            <div class="bottom-nav-icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12,2C14.11,2 16.11,2.53 17.82,3.53C17.95,3.61 18.06,3.71 18.15,3.83L19.15,5.17C19.67,5.82 19.43,6.74 18.74,7.15L16.9,8.21C16.55,8.42 16.34,8.79 16.34,9.18V10.5C16.34,11.33 15.67,12 14.84,12H13.66C13.29,12 12.96,12.2 12.76,12.5L11.76,14C11.56,14.3 11.23,14.5 10.86,14.5H9.5C8.67,14.5 8,15.17 8,16V17.18C8,17.55 7.8,17.88 7.5,18.08L5.83,19.17C5.15,19.58 4.23,19.34 3.82,18.66L2.71,16.82C2.29,16.11 2,15.33 2,14.5V12C2,6.48 6.48,2 12,2M15,10.5C15.83,10.5 16.5,9.83 16.5,9C16.5,8.17 15.83,7.5 15,7.5C14.17,7.5 13.5,8.17 13.5,9C13.5,9.83 14.17,10.5 15,10.5M9,9C9.83,9 10.5,8.33 10.5,7.5C10.5,6.67 9.83,6 9,6C8.17,6 7.5,6.67 7.5,7.5C7.5,8.33 8.17,9 9,9M12,6C12.83,6 13.5,5.33 13.5,4.5C13.5,3.67 12.83,3 12,3C11.17,3 10.5,3.67 10.5,4.5C10.5,5.33 11.17,6 12,6M6,13.5C6.83,13.5 7.5,12.83 7.5,12C7.5,11.17 6.83,10.5 6,10.5C5.17,10.5 4.5,11.17 4.5,12C4.5,12.83 5.17,13.5 6,13.5Z"/>
-                </svg>
-            </div>
-            <span>Tema</span>
-        </a>
-        <a href="#faq" class="bottom-nav-item" data-section="faq">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            <span>FAQ</span>
-        </a>
-        <a href="#contact" class="bottom-nav-item" data-section="contact">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            <span>Kontak</span>
-        </a>
-    </nav>
-
-    <!-- Hero Section / Home -->
-    <section id="home" class="hero">
+    <!-- Main Content -->
+    <main class="main">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        Undangan Digital <span class="text-brand-gold">Premium</span> untuk Momen Spesial Anda
-                    </h1>
-                    <p class="hero-subtitle">
-                        Ciptakan kesan pertama yang tak terlupakan dengan undangan digital elegan, modern, dan penuh sentuhan personal. Desain eksklusif dengan fitur lengkap untuk acara pernikahan, engagement, aqiqah, dan berbagai momen istimewa lainnya.
-                    </p>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="5764">0</div>
-                            <div class="stat-label">Undangan Dibuat</div>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="254192">0</div>
-                            <div class="stat-label">Undangan Dibagikan</div>
+            <!-- Home Page -->
+            <div id="home-page" class="page active">
+                <!-- Search Section -->
+                <section class="search-section">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Cari surah..." autocomplete="off">
+                    </div>
+                </section>
+
+                <!-- Stats Section -->
+                <section class="stats-section">
+                    <div class="stat-card">
+                        <i class="fas fa-book-quran"></i>
+                        <div class="stat-info">
+                            <h3>114</h3>
+                            <p>Surah</p>
                         </div>
                     </div>
-                    <div class="hero-buttons">
-                        <a href="#catalog" class="btn btn-primary">Lihat Katalog Tema</a>
-                        <a href="https://wa.me/6281211114522" class="btn btn-outline" target="_blank">Konsultasi Gratis</a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-image-bottom">
-                <img src="https://s2moments.id/wp-content/uploads/2025/11/Momenta-1.png" alt="Undangan Digital S2Moments">
-            </div>
-        </div>
-        <div class="hero-pattern"></div>
-    </section>
-
-    <!-- Why Choose Us Section -->
-    <section id="why-us" class="why-us">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Mengapa Memilih <span class="text-brand-gold">Layanan Kami?</span></h2>
-                <p class="section-subtitle">Kami memberikan lebih dari sekadar undangan digital</p>
-            </div>
-
-            <div class="why-us-grid">
-                <div class="why-us-card">
-                    <div class="why-us-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                        </svg>
-                    </div>
-                    <h3>Proses Cepat</h3>
-                    <p>Undangan siap dalam 1x24 jam setelah data lengkap diterima. Tidak perlu menunggu lama!</p>
-                </div>
-
-                <div class="why-us-card">
-                    <div class="why-us-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <h3>Desain Premium</h3>
-                    <p>Puluhan tema eksklusif dengan desain elegan dan modern yang membuat undangan Anda tampil beda.</p>
-                </div>
-
-                <div class="why-us-card">
-                    <div class="why-us-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                            <line x1="8" y1="21" x2="16" y2="21"/>
-                            <line x1="12" y1="17" x2="12" y2="21"/>
-                        </svg>
-                    </div>
-                    <h3>Full Responsive</h3>
-                    <p>Tampilan sempurna di semua perangkat - Android, iOS, tablet, laptop, dan desktop.</p>
-                </div>
-
-                <div class="why-us-card">
-                    <div class="why-us-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <polyline points="14 2 14 8 20 8"/>
-                            <line x1="16" y1="13" x2="8" y2="13"/>
-                            <line x1="16" y1="17" x2="8" y2="17"/>
-                            <polyline points="10 9 9 9 8 9"/>
-                        </svg>
-                    </div>
-                    <h3>Fitur Lengkap</h3>
-                    <p>Countdown timer, musik, RSVP, amplop digital, Google Maps, galeri foto, dan banyak lagi.</p>
-                </div>
-
-                <div class="why-us-card">
-                    <div class="why-us-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
-                    </div>
-                    <h3>Unlimited Tamu</h3>
-                    <p>Tidak ada batasan jumlah tamu. Bagikan undangan ke sebanyak apapun orang yang Anda inginkan.</p>
-                </div>
-
-                <div class="why-us-card">
-                    <div class="why-us-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                        </svg>
-                    </div>
-                    <h3>Revisi Gratis</h3>
-                    <p>Revisi data minor sebanyak yang Anda mau tanpa biaya tambahan hingga Anda puas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Fitur <span class="text-brand-gold">Lengkap</span></h2>
-                <p class="section-subtitle">Semua yang Anda butuhkan untuk undangan digital sempurna</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎵</div>
-                    <h3>Background Music</h3>
-                    <p>Tambahkan lagu favorit Anda dari YouTube atau Spotify sebagai musik latar undangan.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⏰</div>
-                    <h3>Countdown Timer</h3>
-                    <p>Hitung mundur otomatis menuju hari spesial Anda dengan tampilan yang menarik.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">✉️</div>
-                    <h3>RSVP Digital</h3>
-                    <p>Konfirmasi kehadiran tamu secara online, mudah dipantau dan dikelola.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💝</div>
-                    <h3>Amplop Digital</h3>
-                    <p>Terima hadiah dan ucapan dari tamu langsung ke rekening bank atau e-wallet Anda.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📍</div>
-                    <h3>Google Maps</h3>
-                    <p>Integrasi peta lokasi acara untuk memudahkan tamu menemukan tempat dengan GPS.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📸</div>
-                    <h3>Galeri Foto</h3>
-                    <p>Tampilkan foto pre-wedding, foto keluarga, atau momen spesial dalam galeri yang elegan.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💌</div>
-                    <h3>Ucapan & Doa</h3>
-                    <p>Fitur buku tamu digital untuk tamu meninggalkan pesan, ucapan, dan doa.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📅</div>
-                    <h3>Save to Calendar</h3>
-                    <p>Tamu dapat menyimpan jadwal acara langsung ke kalender smartphone mereka.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔗</div>
-                    <h3>Link Custom</h3>
-                    <p>Dapatkan URL unik dan mudah diingat untuk undangan Anda (s2moments.id/nama-anda).</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💕</div>
-                    <h3>Story Love</h3>
-                    <p>Bagikan kisah perjalanan cinta Anda dengan timeline yang indah dan personal.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Catalog Section -->
-    <section id="catalog" class="catalog">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Katalog <span class="text-brand-gold">Tema</span></h2>
-                <p class="section-subtitle">Pilihan tema premium untuk setiap momen istimewa</p>
-            </div>
-
-            <!-- Catalog Toggle Buttons -->
-            <div class="catalog-toggle">
-                <button class="catalog-toggle-btn active" data-category="wedding">
-                    <span>💍</span>
-                    <span>Katalog Wedding</span>
-                </button>
-                <button class="catalog-toggle-btn" data-category="non-wedding">
-                    <span>🎉</span>
-                    <span>Katalog Non-Wedding</span>
-                </button>
-            </div>
-
-            <!-- Wedding Catalog -->
-            <div id="catalog-wedding" class="catalog-content active">
-                <!-- Category Tabs for Wedding -->
-                <div class="catalog-tabs">
-                    <button class="catalog-tab active" data-subcategory="luxee">Luxee</button>
-                    <button class="catalog-tab" data-subcategory="adat">Adat</button>
-                    <button class="catalog-tab" data-subcategory="floral">Floral</button>
-                    <button class="catalog-tab" data-subcategory="watercolor">Watercolor</button>
-                    <button class="catalog-tab" data-subcategory="minimalist">Minimalist</button>
-                </div>
-
-                <!-- Tema Grid -->
-                <div class="catalog-grid" id="wedding-themes"></div>
-            </div>
-
-            <!-- Non-Wedding Catalog -->
-            <div id="catalog-non-wedding" class="catalog-content">
-                <!-- Category Tabs for Non-Wedding -->
-                <div class="catalog-tabs">
-                    <button class="catalog-tab active" data-subcategory="engagement">Engagement</button>
-                    <button class="catalog-tab" data-subcategory="anniversary">Anniversary</button>
-                    <button class="catalog-tab" data-subcategory="aqiqah">Aqiqah</button>
-                    <button class="catalog-tab" data-subcategory="khitan">Khitan</button>
-                    <button class="catalog-tab" data-subcategory="birthday">Birthday</button>
-                    <button class="catalog-tab" data-subcategory="others">Others</button>
-                </div>
-
-                <!-- Tema Grid -->
-                <div class="catalog-grid" id="non-wedding-themes"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Apa Kata <span class="text-brand-gold">Mereka?</span></h2>
-                <p class="section-subtitle">Ribuan pasangan telah mempercayakan momen spesial mereka kepada kami</p>
-            </div>
-
-            <div class="testimonials-slider-wrapper">
-                <button class="testimonials-nav testimonials-nav-prev" aria-label="Previous testimonial">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"/>
-                    </svg>
-                </button>
-
-                <div class="testimonials-slider">
-                    <div class="testimonials-track">
-                        <div class="testimonial-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-header">
-                                    <img src="https://i.imgur.com/rELTAdd.jpeg" alt="Riedho & Silvi" class="testimonial-avatar">
-                                    <div class="testimonial-info">
-                                        <h4>Riedho & Silvi</h4>
-                                        <div class="testimonial-rating">
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="testimonial-text">
-                                    "Prosesnya cepet banget dan hasilnya super elegan! Semua tamu muji undangannya. Adminnya juga ramah dan sabar banget jawabin semua pertanyaan. Recommended!"
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="testimonial-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-header">
-                                    <img src="https://i.imgur.com/R1HgFYU.jpeg" alt="Makbul & Layla" class="testimonial-avatar">
-                                    <div class="testimonial-info">
-                                        <h4>Makbul & Layla</h4>
-                                        <div class="testimonial-rating">
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="testimonial-text">
-                                    "Gak nyangka dengan harga segitu bisa dapet undangan sekeren ini. Fiturnya lengkap, desainnya modern. Puas banget sama layanan S2Moments!"
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="testimonial-slide">
-                            <div class="testimonial-card">
-                                <div class="testimonial-header">
-                                    <img src="https://i.imgur.com/C6aDRb0.jpeg" alt="Rasca & Salsa" class="testimonial-avatar">
-                                    <div class="testimonial-info">
-                                        <h4>Rasca & Salsa</h4>
-                                        <div class="testimonial-rating">
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                            <span class="star">⭐</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="testimonial-text">
-                                    "Awalnya ragu pakai undangan digital, tapi S2Moments bikin semuanya jadi gampang. Bisa revisi data berkali-kali tanpa tambahan biaya. Terima kasih banyak!"
-                                </p>
-                            </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-info">
+                            <h3 id="bookmark-count">0</h3>
+                            <p>Bookmark</p>
                         </div>
                     </div>
-                </div>
+                    <div class="stat-card">
+                        <i class="fas fa-book-open"></i>
+                        <div class="stat-info">
+                            <h3 id="last-read">-</h3>
+                            <p>Terakhir Dibaca</p>
+                        </div>
+                    </div>
+                </section>
 
-                <button class="testimonials-nav testimonials-nav-next" aria-label="Next testimonial">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"/>
-                    </svg>
-                </button>
+                <!-- Surah List -->
+                <section class="surah-section">
+                    <h2 class="section-title">Daftar Surah</h2>
+                    <div id="surah-list" class="surah-list">
+                        <!-- Surah cards will be inserted here -->
+                    </div>
+                </section>
             </div>
 
-            <div class="testimonials-dots"></div>
-        </div>
-    </section>
+            <!-- Surah Detail Page -->
+            <div id="surah-page" class="page">
+                <div class="surah-header">
+                    <button class="back-btn" id="back-to-home">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <div class="surah-info">
+                        <h2 id="surah-name-arabic"></h2>
+                        <div class="surah-meta">
+                            <span id="surah-name"></span>
+                            <span class="separator">•</span>
+                            <span id="surah-revelation"></span>
+                            <span class="separator">•</span>
+                            <span id="surah-ayah-count"></span>
+                        </div>
+                    </div>
+                    <div class="surah-actions">
+                        <button class="action-btn" id="play-audio-btn" title="Putar Audio">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="faq">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">FAQ <span class="text-brand-gold">(Tanya Jawab)</span></h2>
-                <p class="section-subtitle">Temukan jawaban untuk pertanyaan yang sering diajukan</p>
+                <!-- Audio Player -->
+                <div id="audio-player" class="audio-player hidden">
+                    <div class="audio-info">
+                        <span id="current-ayah">Ayat 1</span>
+                    </div>
+                    <div class="audio-controls">
+                        <button id="prev-ayah"><i class="fas fa-step-backward"></i></button>
+                        <button id="play-pause"><i class="fas fa-play"></i></button>
+                        <button id="next-ayah"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                    <div class="audio-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="audio-time">
+                            <span id="current-time">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+                    <audio id="audio-element"></audio>
+                </div>
+
+                <!-- Bismillah -->
+                <div id="bismillah" class="bismillah">
+                    <p class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                </div>
+
+                <!-- Ayat List -->
+                <div id="ayat-list" class="ayat-list">
+                    <!-- Ayat cards will be inserted here -->
+                </div>
             </div>
 
-            <div class="faq-container">
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Berapa lama proses pembuatannya?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Proses pembuatan sangat cepat! Undangan Anda akan siap dalam waktu maksimal 1x24 jam setelah semua data kami terima dengan lengkap.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Apakah saya bisa revisi data?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Tentu saja! Kami memberikan kebebasan revisi data minor (seperti salah ketik nama, waktu, atau tempat) sampai Anda merasa puas, tanpa biaya tambahan.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Bisakah saya menggunakan lagu sendiri?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Tentu! Anda bisa me-request lagu favorit Anda untuk dijadikan musik latar pada undangan, selama lagu tersebut tersedia di platform seperti YouTube atau Spotify.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Berapa lama undangan akan aktif?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Undangan Anda akan aktif selama 1 tahun penuh. Anda tidak perlu khawatir undangan akan nonaktif sebelum atau sesaat setelah acara selesai.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Apakah bisa ganti tema setelah undangan jadi?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Penggantian tema setelah undangan selesai akan dikenakan biaya tambahan. Pastikan Anda memilih tema yang paling disukai dari awal, ya!</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Bagaimana cara saya membagikan undangan?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Sangat mudah! Anda akan mendapatkan sebuah link unik (contoh: s2moments.id/nama-pasangan) yang bisa langsung Anda salin dan bagikan ke seluruh tamu melalui WhatsApp, media sosial, atau platform lainnya.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Apakah ada batasan jumlah tamu yang bisa diundang?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Tidak ada batasan! Anda bisa mengundang sebanyak apapun tamu yang Anda inginkan. Undangan digital kami dapat diakses oleh unlimited jumlah tamu.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Apakah bisa menambahkan foto pre-wedding atau foto pasangan?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Tentu bisa! Anda dapat menambahkan galeri foto pre-wedding, foto pasangan, atau foto keluarga. Kami akan membantu mengatur layout foto agar terlihat menarik dan elegan.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Apakah undangan bisa diakses di semua perangkat?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Ya! Undangan digital kami responsive dan dapat diakses dengan sempurna di semua perangkat - smartphone Android/iOS, tablet, laptop, dan desktop dengan berbagai ukuran layar.</p>
+            <!-- Bookmarks Page -->
+            <div id="bookmarks-page" class="page">
+                <h2 class="section-title">Ayat yang Ditandai</h2>
+                <div id="bookmarks-list" class="ayat-list">
+                    <div class="empty-state">
+                        <i class="fas fa-bookmark"></i>
+                        <p>Belum ada ayat yang ditandai</p>
+                        <small>Tandai ayat favorit Anda untuk akses cepat</small>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Hubungi <span class="text-brand-gold">Kami</span></h2>
-                <p class="section-subtitle">Punya pertanyaan? Jangan ragu untuk menghubungi kami.</p>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-mascot">
-                    <img src="https://imgur.com/Nv0KmH0.png" alt="S2Moments Mascot">
-                </div>
-
-                <div class="contact-details">
-                    <p class="contact-message">Cara tercepat untuk menghubungi kami adalah melalui WhatsApp.</p>
-
-                    <a href="https://wa.me/6281211114522" class="btn-wa-contact" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                        WhatsApp
-                    </a>
-
-                    <p class="contact-social-label">Atau temukan kami di media sosial:</p>
-
-                    <div class="contact-social-icons">
-                        <a href="https://www.instagram.com/s2moments.id" target="_blank" aria-label="Instagram" class="social-icon-instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.facebook.com/s2moments.id" target="_blank" aria-label="Facebook" class="social-icon-facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.tiktok.com/@s2moments.id" target="_blank" aria-label="TikTok" class="social-icon-tiktok">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                            </svg>
-                        </a>
-                        <a href="mailto:admin@s2moments.id" target="_blank" aria-label="Email" class="social-icon-email">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Payment Methods Section -->
-    <section id="payment" class="payment">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Metode <span class="text-brand-gold">Pembayaran</span></h2>
-                <p class="section-subtitle">Kami menerima berbagai metode pembayaran untuk kemudahan Anda</p>
-            </div>
-
-            <div class="payment-methods">
-                <img src="https://s2moments.id/wp-content/uploads/2025/11/payment-support-2.png" alt="Payment Methods" class="payment-image">
-            </div>
-        </div>
-    </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-center">
-                <div class="footer-logo">
-                    <img src="https://s2moments.id/wp-content/uploads/2025/11/logo.png" alt="S2Moments Logo">
-                    <span>S2Moments</span>
-                </div>
-                <p class="footer-tagline">Ciptakan undangan digital premium yang berkesan untuk momen spesial Anda.</p>
-
-                <div class="footer-contact-simple">
-                    <div class="footer-contact-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                        </svg>
-                        <span>+62 812-1111-4522</span>
-                    </div>
-                    <div class="footer-contact-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                            <polyline points="22,6 12,13 2,6"/>
-                        </svg>
-                        <span>admin@s2moments.id</span>
-                    </div>
-                </div>
-
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/s2moments.id" target="_blank" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.facebook.com/s2moments.id" target="_blank" aria-label="Facebook">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.tiktok.com/@s2moments.id" target="_blank" aria-label="TikTok">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                        </svg>
-                    </a>
-                    <a href="https://wa.me/6281211114522" target="_blank" aria-label="WhatsApp">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                    </a>
-                </div>
-
-                <p class="footer-copyright">&copy; 2025 S2Moments. Made with love for your special moments.</p>
-            </div>
+            <p>&copy; 2024 Al-Quran Digital. Data dari <a href="https://alquran.cloud" target="_blank">AlQuran Cloud API</a></p>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="js/catalog-data.js"></script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message"></span>
+    </div>
+
     <script src="js/main.js"></script>
 </body>
 </html>
