@@ -39,6 +39,17 @@
                         <i class="fas fa-bookmark"></i>
                         <span>Bookmark</span>
                     </button>
+                    <button class="nav-btn" data-page="notes">
+                        <i class="fas fa-note-sticky"></i>
+                        <span>Catatan</span>
+                    </button>
+                    <button class="nav-btn" data-page="stats">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Statistik</span>
+                    </button>
+                    <button class="settings-btn" id="settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
                     <button class="theme-toggle" id="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </button>
@@ -50,9 +61,21 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Daftar Surah</h2>
+            <h2>Navigasi Al-Quran</h2>
             <button class="sidebar-close" id="sidebar-close">
                 <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="sidebar-tabs">
+            <button class="sidebar-tab active" data-tab="surah">
+                <i class="fas fa-book"></i>
+                <span>Surah</span>
+            </button>
+            <button class="sidebar-tab" data-tab="juz">
+                <i class="fas fa-layer-group"></i>
+                <span>Juz</span>
             </button>
         </div>
 
@@ -65,8 +88,13 @@
         </div>
 
         <!-- Surah List -->
-        <div id="surah-list" class="sidebar-surah-list">
+        <div id="surah-list" class="sidebar-surah-list sidebar-content active" data-content="surah">
             <!-- Surah items will be inserted here -->
+        </div>
+
+        <!-- Juz List -->
+        <div id="juz-list" class="sidebar-juz-list sidebar-content" data-content="juz">
+            <!-- Juz items will be inserted here -->
         </div>
     </aside>
 
@@ -95,6 +123,13 @@
                         </div>
                     </div>
                     <div class="stat-card">
+                        <i class="fas fa-note-sticky"></i>
+                        <div class="stat-info">
+                            <h3 id="notes-count">0</h3>
+                            <p>Catatan</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
                         <i class="fas fa-book-open"></i>
                         <div class="stat-info">
                             <h3 id="last-read">-</h3>
@@ -103,12 +138,39 @@
                     </div>
                 </section>
 
-                <!-- Welcome Section -->
-                <section class="welcome-section">
-                    <div class="welcome-card">
-                        <i class="fas fa-book-quran"></i>
-                        <h2>Selamat Datang di Al-Quran Digital</h2>
-                        <p>Pilih surah dari sidebar untuk mulai membaca</p>
+                <!-- Daily Verse Section -->
+                <section class="daily-verse-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-sun"></i>
+                        Ayat Hari Ini
+                    </h2>
+                    <div id="daily-verse" class="daily-verse-card">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </section>
+
+                <!-- Quick Access Section -->
+                <section class="quick-access-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-bolt"></i>
+                        Akses Cepat
+                    </h2>
+                    <div class="quick-access-grid">
+                        <button class="quick-access-card" id="continue-reading">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Lanjut Membaca</h3>
+                            <p>Kembali ke bacaan terakhir</p>
+                        </button>
+                        <button class="quick-access-card" id="random-surah">
+                            <i class="fas fa-random"></i>
+                            <h3>Surah Acak</h3>
+                            <p>Baca surah secara acak</p>
+                        </button>
+                        <button class="quick-access-card" id="search-ayah">
+                            <i class="fas fa-search"></i>
+                            <h3>Cari Ayat</h3>
+                            <p>Cari dalam Al-Quran</p>
+                        </button>
                     </div>
                 </section>
             </div>
@@ -133,6 +195,34 @@
                     <div class="surah-actions">
                         <button class="action-btn" id="play-audio-btn" title="Putar Audio">
                             <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reading Toolbar -->
+                <div class="reading-toolbar">
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">Ukuran Font:</span>
+                        <button class="toolbar-btn" id="decrease-font" title="Perkecil Font">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="font-size-display" class="font-size-display">28px</span>
+                        <button class="toolbar-btn" id="increase-font" title="Perbesar Font">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button class="toolbar-btn" id="toggle-translation" title="Tampilkan/Sembunyikan Terjemahan">
+                            <i class="fas fa-language"></i>
+                            <span>Terjemahan</span>
+                        </button>
+                        <button class="toolbar-btn" id="toggle-reading-mode" title="Mode Fokus Baca">
+                            <i class="fas fa-eye"></i>
+                            <span>Mode Fokus</span>
+                        </button>
+                        <button class="toolbar-btn" id="show-tafsir-panel" title="Tampilkan Panel Tafsir">
+                            <i class="fas fa-book-open"></i>
+                            <span>Tafsir</span>
                         </button>
                     </div>
                 </div>
@@ -181,8 +271,164 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Notes Page -->
+            <div id="notes-page" class="page">
+                <h2 class="section-title">Catatan Pribadi</h2>
+                <div id="notes-list" class="notes-grid">
+                    <div class="empty-state">
+                        <i class="fas fa-note-sticky"></i>
+                        <p>Belum ada catatan</p>
+                        <small>Tambahkan catatan pribadi untuk ayat yang Anda pelajari</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Page -->
+            <div id="stats-page" class="page">
+                <h2 class="section-title">Statistik Bacaan</h2>
+
+                <div class="stats-overview">
+                    <div class="stat-card-large">
+                        <i class="fas fa-book-quran"></i>
+                        <div class="stat-info">
+                            <h3 id="surah-read-count">0</h3>
+                            <p>Surah Dibaca</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="surah-progress"></div>
+                            </div>
+                            <small id="surah-percentage">0%</small>
+                        </div>
+                    </div>
+                    <div class="stat-card-large">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-info">
+                            <h3 id="reading-time">0</h3>
+                            <p>Menit Membaca</p>
+                        </div>
+                    </div>
+                    <div class="stat-card-large">
+                        <i class="fas fa-fire"></i>
+                        <div class="stat-info">
+                            <h3 id="streak-days">0</h3>
+                            <p>Hari Berturut-turut</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reading-history">
+                    <h3 class="subsection-title">Riwayat Bacaan</h3>
+                    <div id="reading-history-list" class="history-list">
+                        <!-- History items will be inserted here -->
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+
+    <!-- Tafsir Panel -->
+    <div id="tafsir-panel" class="tafsir-panel">
+        <div class="tafsir-header">
+            <h3>Tafsir</h3>
+            <button class="close-tafsir" id="close-tafsir">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="tafsir-content" id="tafsir-content">
+            <div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <p>Pilih ayat untuk melihat tafsir</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Pengaturan</h2>
+                <button class="modal-close" id="close-settings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Bahasa Terjemahan</h3>
+                    <select id="translation-language" class="settings-select">
+                        <option value="id.indonesian">Bahasa Indonesia</option>
+                        <option value="en.sahih">English (Sahih International)</option>
+                        <option value="en.pickthall">English (Pickthall)</option>
+                        <option value="ar.muyassar">العربية (المیسر)</option>
+                        <option value="ur.jalandhry">اردو (جالندھری)</option>
+                    </select>
+                </div>
+                <div class="settings-section">
+                    <h3>Qari Audio</h3>
+                    <select id="audio-reciter" class="settings-select">
+                        <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+                        <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
+                        <option value="ar.abdullahbasfar">Abdullah Basfar</option>
+                        <option value="ar.husary">Mahmoud Khalil Al-Hussary</option>
+                    </select>
+                </div>
+                <div class="settings-section">
+                    <h3>Tampilan</h3>
+                    <label class="settings-toggle">
+                        <input type="checkbox" id="auto-scroll" checked>
+                        <span>Auto Scroll saat Memutar Audio</span>
+                    </label>
+                    <label class="settings-toggle">
+                        <input type="checkbox" id="show-translation-default" checked>
+                        <span>Tampilkan Terjemahan Secara Default</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tambah Catatan</h2>
+                <button class="modal-close" id="close-note-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="note-ayah-info" class="note-ayah-info"></div>
+                <textarea id="note-textarea" class="note-textarea" placeholder="Tulis catatan Anda di sini..." rows="6"></textarea>
+                <div class="modal-actions">
+                    <button class="btn-secondary" id="cancel-note">Batal</button>
+                    <button class="btn-primary" id="save-note">Simpan Catatan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Cari dalam Al-Quran</h2>
+                <button class="modal-close" id="close-search-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="ayah-search-input" placeholder="Cari ayat..." autocomplete="off">
+                </div>
+                <div id="search-results" class="search-results">
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>Masukkan kata kunci untuk mencari ayat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
