@@ -70,6 +70,7 @@ const elements = {
     statsPage: document.getElementById('stats-page'),
     themeToggle: document.getElementById('theme-toggle'),
     navBtns: document.querySelectorAll('.nav-btn'),
+    mobileNavItems: document.querySelectorAll('.mobile-nav-item'),
     backBtn: document.getElementById('back-to-home'),
     surahNameArabic: document.getElementById('surah-name-arabic'),
     surahName: document.getElementById('surah-name'),
@@ -218,12 +219,17 @@ async function fetchSurahDetail(surahNumber) {
         const audioResponse = await fetch(`${API_BASE_URL}/surah/${surahNumber}/${EDITION_AUDIO}`);
         const audioData = await audioResponse.json();
 
+        // Fetch transliteration (Latin)
+        const transliterationResponse = await fetch(`${API_BASE_URL}/surah/${surahNumber}/en.transliteration`);
+        const transliterationData = await transliterationResponse.json();
+
         if (arabicData.code === 200 && translationData.code === 200) {
             currentSurah = {
                 info: arabicData.data,
                 ayahs: arabicData.data.ayahs.map((ayah, index) => ({
                     number: ayah.numberInSurah,
                     arabic: ayah.text,
+                    transliteration: transliterationData.code === 200 ? transliterationData.data.ayahs[index].text : '',
                     translation: translationData.data.ayahs[index].text,
                     audio: audioData.data.ayahs[index].audio
                 }))
@@ -401,6 +407,7 @@ function createAyahCard(ayah, index) {
             </div>
         </div>
         <p class="ayat-arabic">${ayah.arabic}</p>
+        ${ayah.transliteration ? `<p class="ayat-transliteration">${ayah.transliteration}</p>` : ''}
         <p class="ayat-translation">${ayah.translation}</p>
     `;
 
@@ -446,8 +453,16 @@ function showPage(pageName) {
         pages[pageName].classList.add('active');
     }
 
-    // Update nav buttons
+    // Update nav buttons (desktop)
     elements.navBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.page === pageName) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Update mobile nav buttons
+    elements.mobileNavItems.forEach(btn => {
         btn.classList.remove('active');
         if (btn.dataset.page === pageName) {
             btn.classList.add('active');
@@ -961,17 +976,21 @@ function loadDailyVerse() {
     fetch(`${API_BASE_URL}/surah/${surahNum}/${EDITION_ARABIC}`)
         .then(res => res.json())
         .then(arabicData => {
-            return fetch(`${API_BASE_URL}/surah/${surahNum}/${EDITION_TRANSLATION}`)
-                .then(res => res.json())
-                .then(transData => ({arabic: arabicData, trans: transData}));
+            return Promise.all([
+                Promise.resolve(arabicData),
+                fetch(`${API_BASE_URL}/surah/${surahNum}/${EDITION_TRANSLATION}`).then(res => res.json()),
+                fetch(`${API_BASE_URL}/surah/${surahNum}/en.transliteration`).then(res => res.json())
+            ]);
         })
-        .then(({arabic, trans}) => {
+        .then(([arabic, trans, translit]) => {
             const ayahIndex = seed % arabic.data.numberOfAyahs;
             const ayah = arabic.data.ayahs[ayahIndex];
             const translation = trans.data.ayahs[ayahIndex];
+            const transliteration = translit.code === 200 ? translit.data.ayahs[ayahIndex] : null;
 
             elements.dailyVerse.innerHTML = `
                 <p class="ayat-arabic">${ayah.text}</p>
+                ${transliteration ? `<p class="ayat-transliteration" style="color: rgba(255,255,255,0.8);">${transliteration.text}</p>` : ''}
                 <p class="ayat-translation">${translation.text}</p>
                 <p class="ayat-reference">QS. ${arabic.data.englishName}: ${ayah.numberInSurah}</p>
             `;
@@ -1242,8 +1261,15 @@ function setupEventListeners() {
         });
     });
 
-    // Navigation
+    // Navigation (Desktop)
     elements.navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            showPage(btn.dataset.page);
+        });
+    });
+
+    // Navigation (Mobile)
+    elements.mobileNavItems.forEach(btn => {
         btn.addEventListener('click', () => {
             showPage(btn.dataset.page);
         });
