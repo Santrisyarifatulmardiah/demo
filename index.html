@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Reading Progress Indicator -->
+    <div class="reading-progress" id="reading-progress"></div>
+
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-spinner"></div>
@@ -428,6 +431,18 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container" id="fab-container">
+        <button class="fab fab-secondary" id="scroll-to-top" title="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+            <span class="fab-tooltip">Ke Atas</span>
+        </button>
+        <button class="fab" id="quick-search-fab" title="Quick Search">
+            <i class="fas fa-search"></i>
+            <span class="fab-tooltip">Cari Ayat</span>
+        </button>
     </div>
 
     <!-- Mobile Bottom Navigation (Spotify-like) -->

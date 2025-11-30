@@ -1450,3 +1450,71 @@ function setupEventListeners() {
 window.addEventListener('beforeunload', () => {
     stopReadingTimer();
 });
+
+// ===========================
+// Reading Progress Indicator
+// ===========================
+function updateReadingProgress() {
+    const progressBar = document.getElementById('reading-progress');
+    if (!progressBar) return;
+
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+    progressBar.style.width = Math.min(scrollPercent, 100) + '%';
+}
+
+window.addEventListener('scroll', updateReadingProgress);
+window.addEventListener('resize', updateReadingProgress);
+
+// ===========================
+// Floating Action Buttons
+// ===========================
+function setupFAB() {
+    const scrollToTopBtn = document.getElementById('scroll-to-top');
+    const quickSearchBtn = document.getElementById('quick-search-fab');
+    const fabContainer = document.getElementById('fab-container');
+
+    // Scroll to top functionality
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Quick search FAB
+    if (quickSearchBtn) {
+        quickSearchBtn.addEventListener('click', openSearchModal);
+    }
+
+    // Show/hide FAB based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            fabContainer.style.opacity = '1';
+            fabContainer.style.visibility = 'visible';
+            fabContainer.style.transform = 'translateY(0)';
+        } else {
+            fabContainer.style.opacity = '0';
+            fabContainer.style.visibility = 'hidden';
+            fabContainer.style.transform = 'translateY(20px)';
+        }
+    });
+
+    // Initialize FAB state
+    fabContainer.style.transition = 'all 0.3s ease';
+    fabContainer.style.opacity = '0';
+    fabContainer.style.visibility = 'hidden';
+    fabContainer.style.transform = 'translateY(20px)';
+}
+
+// Initialize FAB when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupFAB);
+} else {
+    setupFAB();
+}
